@@ -1,2 +1,2 @@
 # gutenberg
-The Nova Interaction tool with the Cypress
+The Laravel Nova Interaction tool with the Cypress.
