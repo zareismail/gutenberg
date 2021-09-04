@@ -3,10 +3,10 @@
 namespace Zareismail\Gutenberg;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use Laravel\Nova\Events\ServingNova;
+use Illuminate\Support\ServiceProvider as LaravelServiceProvider; 
 use Laravel\Nova\Nova;
-use Zareismail\Gutenberg\Http\Middleware\Authorize;
+use Laravel\Nova\Observable;
+use Zareismail\Cypress\Cypress;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -18,11 +18,34 @@ class ServiceProvider extends LaravelServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'gutenberg');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->mergeConfigFrom(__DIR__.'/../config/gutenberg.php', 'gutenberg');
 
-        Nova::serving(function (ServingNova $event) {
-            //
+        $this->app->booted(function() {
+            $resource = config('gutenberg.resources.website');
+            $model = $resource::newModel();
+
+            $model::saved(function($model) {
+                $model->ensureComponentExists();
+            }); 
         });
-    }  
+
+        Nova::serving(function () {
+            $this->servingNova();
+        });
+
+        Cypress::discover(app_path('Gutenberg'));
+    }   
+
+    /**
+     * Register any Nova serives.
+     *  
+     * @return void
+     */
+    protected function servingNova()
+    {
+        Nova::resources((array) config('gutenberg.resources'));
+    }
 
     /**
      * Register any application services.
@@ -31,6 +54,8 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        //
+        $this->commands([
+            Console\ComponentCommand::class,
+        ]);
     }
 }
