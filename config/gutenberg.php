@@ -1,6 +1,8 @@
 <?php 
 
+use Zareismail\Gutenberg\Models\GutenbergFragment;
 use Zareismail\Gutenberg\Models\GutenbergWebsite;
+use Zareismail\Gutenberg\Nova\Fragment;
 use Zareismail\Gutenberg\Nova\Website;
 
 return [ 
@@ -17,7 +19,8 @@ return [
     */
    
 	'resources' => [
-		'website' => Website::class, 
+        'fragment'  => Fragment::class,
+        'website'   => Website::class,  
 	],
 
     /*
@@ -31,7 +34,8 @@ return [
     */
    
     'models' => [
-        Website::class => GutenbergWebsite::class, 
+        Fragment::class => GutenbergFragment::class, 
+        Website::class  => GutenbergWebsite::class, 
     ],
     
     /*

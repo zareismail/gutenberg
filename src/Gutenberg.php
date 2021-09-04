@@ -2,6 +2,7 @@
 
 namespace Zareismail\Gutenberg; 
 
+use Illuminate\Support\Collection;
 use Zareismail\Cypress\Cypress;
 
 class Gutenberg extends Cypress
@@ -12,6 +13,38 @@ class Gutenberg extends Cypress
      * @var array
      */
     public static $components = [];
+
+    /**
+     * The registered fragment names.
+     *
+     * @var array
+     */
+    public static $fragments = [];
+
+    /**
+     * Register the given fragments.
+     *
+     * @param  array  $fragments
+     * @return static
+     */
+    public static function fragments(array $fragments)
+    {
+        static::$fragments = array_unique(
+            array_merge(static::$fragments, $fragments)
+        );
+
+        return new static;
+    } 
+
+    /**
+     * Return the base collection of Cypress fragments.
+     *
+     * @return \Zareismail\Cypress\ComponentCollection
+     */
+    public static function fragmentCollection()
+    {
+        return Collection::make(static::$fragments);
+    } 
 
     /**
      * Get the cache websites.

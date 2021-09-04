@@ -4,22 +4,28 @@ namespace Zareismail\Gutenberg\Nova;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select; 
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Zareismail\Gutenberg\Gutenberg;
 
-class Website extends Resource
+class Fragment extends Resource
 {
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
+
+    /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = false;
 
     /**
      * The columns that should be searched.
@@ -41,53 +47,31 @@ class Website extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            Select::make(__('Website Handler'), 'component')
-                ->options(Gutenberg::componentCollection()->flip()->map(function($key, $component) {
-                    return __(class_basename($component));
-                }))
-                ->displayUsingLabels()
+            BelongsTo::make(__('Related Website'), 'website', Website::class)
                 ->required()
                 ->rules('required'),
 
-            Select::make(__('Website Language'), 'locale')
-                ->options((array) config('gutenberg.locales'))
+            Select::make(__('Fragment Handler'), 'fragment')
+                ->options(Gutenberg::fragmentCollection()->flip()->map(function($key, $fragment) {
+                    return __(class_basename($fragment));
+                }))
                 ->displayUsingLabels()
+                ->required()
+                ->rules('required'), 
+
+            Text::make(__('Fragment Name'), 'name')
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->default(function()  {
-                    $locales = array_keys((array) config('gutenberg.locales'));
+                ->placeholder(__('New Gutenberg Fragment')), 
 
-                    return in_array(app()->getLocale(), $locales) ? app()->getLocale() : current($locales);
-                }),
-
-            Text::make(__('Website Name'), 'name')
-                ->sortable()
-                ->required()
-                ->rules('required')
-                ->placeholder(__('New Gutenberg Website')),
-
-            Text::make(__('Website Title'), 'title')
-                ->sortable()
-                ->required()
-                ->rules('required')
-                ->placeholder(__('New Gutenberg Website')),
-
-            Text::make(__('Website Directory'), 'directory') 
+            Text::make(__('Fragment Prefix'), 'prefix') 
                 ->sortable()
                 ->rules([
-                    Rule::unique('gutenberg_websites')->ignore($this->id)->where(function($query) {
-                        return $query->where('locale', '!=', $this->locale);
+                    Rule::unique('gutenberg_fragments')->ignore($this->id)->where(function($query) {
+                        return $query->where('website_id', $this->website_id);
                     }),
-                ]), 
-
-            Textarea::make(__('Website Description'), 'description')
-                ->sortable()
-                ->required()
-                ->rules('required')
-                ->placeholder(__('New Gutenberg Website description')),
-
-            HasMany::make(__('Website Fragments'), 'fragments', Fragment::class),
+                ]),  
         ];
     }
 

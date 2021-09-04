@@ -5,10 +5,9 @@ namespace Zareismail\Gutenberg\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GutenbergWebsite extends Model
+class GutenbergFragment extends Model
 {
-    use HasFactory;
-    use InteractsWithComponents;
+    use HasFactory; 
 
     /**
      * The attributes that should be cast to native types.
@@ -17,25 +16,25 @@ class GutenbergWebsite extends Model
      */
     protected $casts = [
         'config' => 'collection',
-    ]; 
+    ];
 
     /**
-     * Query the realted GutenbergFragment.
+     * Query the realted GutenbergWebsite.
      * 
      * @return [type] [description]
      */
-    public function fragments()
+    public function website()
     {
-        return $this->hasMany(GutenbergFragment::class, 'website_id');
-    } 
+        return $this->belongsTo(GutenbergWebsite::class);
+    }
 
     /**
-     * Get the `uriKey` of corresponding component.
+     * Get the `uriKey` of corresponding fragment.
      * 
      * @return string
      */
     public function uriKey()
     {
-        return $this->directory;
+        return $this->prefix;
     }
 }
