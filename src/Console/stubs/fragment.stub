@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }}; 
+
+use {{ fragment }} as Fragment;
+
+class {{ class }} extends Fragment 
+{      
+    use \Zareismail\Gutenberg\InteractsWithFragment; 
+}

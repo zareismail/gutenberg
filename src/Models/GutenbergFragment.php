@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class GutenbergFragment extends Model
 {
-    use HasFactory; 
+    use HasFactory;
+    use InteractsWithFragments; 
 
     /**
      * The attributes that should be cast to native types.

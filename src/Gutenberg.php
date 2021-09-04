@@ -59,4 +59,18 @@ class Gutenberg extends Cypress
             return $resource::newModel()->get();
         });
     }
+
+    /**
+     * Get the cache fragments.
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    public static function cachedFragments()
+    {
+        return once(function() {
+            $resource = config('gutenberg.resources.fragment');
+
+            return $resource::newModel()->get();
+        });
+    }
 }
