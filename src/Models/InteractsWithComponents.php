@@ -7,6 +7,18 @@ use Illuminate\Support\Facades\Artisan;
 trait InteractsWithComponents 
 {
     /**
+     * Bootstrap any trait resources.
+     * 
+     * @return void
+     */
+    public static function bootInteractsWithComponents()
+    { 
+        static::saved(function($model) {
+            $model->ensureComponentExists();
+        }); 
+    }
+
+    /**
      * Ensure that corresponding Cypress component exists.
      * 
      * @return void

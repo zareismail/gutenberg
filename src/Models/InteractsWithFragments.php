@@ -7,6 +7,18 @@ use Illuminate\Support\Facades\Artisan;
 trait InteractsWithFragments 
 {
     /**
+     * Bootstrap any trait resources.
+     * 
+     * @return void
+     */
+    public static function bootInteractsWithFragments()
+    { 
+        static::saved(function($model) {
+            $model->ensureFragmentExists();
+        }); 
+    }
+    
+    /**
      * Ensure that corresponding Cypress fragment exists.
      * 
      * @return void

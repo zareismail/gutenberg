@@ -19,16 +19,7 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'gutenberg');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->mergeConfigFrom(__DIR__.'/../config/gutenberg.php', 'gutenberg');
-
-        $this->app->booted(function() {
-            $resource = config('gutenberg.resources.website');
-            $model = $resource::newModel();
-
-            $model::saved(function($model) {
-                $model->ensureComponentExists();
-            }); 
-        });
+        $this->mergeConfigFrom(__DIR__.'/../config/gutenberg.php', 'gutenberg'); 
 
         Nova::serving(function () {
             $this->servingNova();
@@ -56,6 +47,7 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $this->commands([
             Console\ComponentCommand::class,
+            Console\FragmentCommand::class,
         ]);
     }
 }
