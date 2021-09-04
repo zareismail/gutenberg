@@ -49,7 +49,7 @@ trait InteractsWithWebsite
     {
         return once(function() {
             return Gutenberg::cachedWebsites()->first(function($website) {
-                return $website->cypressComponentName() === class_basename(static::class);
+                return $website->cypressComponent() === static::class;
             });
         });
     } 
