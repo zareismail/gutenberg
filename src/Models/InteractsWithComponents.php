@@ -33,7 +33,7 @@ trait InteractsWithComponents
      */
     public function cypressComponent()
     {
-        return app()->getNamespace().$this->cypressComponentName();
+        return app()->getNamespace().'Gutenberg\\'.$this->cypressComponentName();
     }
 
     /**
