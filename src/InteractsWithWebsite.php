@@ -31,6 +31,16 @@ trait InteractsWithWebsite
     }
 
     /**
+     * Get the component fragments.
+     *
+     * @return string
+     */
+    public function fragments(): array
+    {
+        return static::website()->fragments->map->cypressFragment()->toArray();
+    }
+
+    /**
      * Get  the component coresponding website.
      * 
      * @return \Illuminate\Database\Eloquent\Model
