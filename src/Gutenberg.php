@@ -56,7 +56,7 @@ class Gutenberg extends Cypress
         return once(function() {
             $resource = config('gutenberg.resources.website');
 
-            return $resource::newModel()->get();
+            return $resource::newModel()->with('fragments')->get();
         });
     }
 
