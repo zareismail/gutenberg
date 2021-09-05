@@ -22,6 +22,13 @@ class Gutenberg extends Cypress
     public static $fragments = [];
 
     /**
+     * The registered widget names.
+     *
+     * @var array
+     */
+    public static $widgets = [];
+
+    /**
      * Register the given fragments.
      *
      * @param  array  $fragments
@@ -47,6 +54,31 @@ class Gutenberg extends Cypress
     } 
 
     /**
+     * Register the given widgets.
+     *
+     * @param  array  $widgets
+     * @return static
+     */
+    public static function widgets(array $widgets)
+    {
+        static::$widgets = array_unique(
+            array_merge(static::$widgets, $widgets)
+        );
+
+        return new static;
+    } 
+
+    /**
+     * Return the base collection of Cypress widgets.
+     *
+     * @return \Zareismail\Cypress\ComponentCollection
+     */
+    public static function widgetCollection()
+    {
+        return Collection::make(static::$widgets);
+    } 
+
+    /**
      * Get the cache websites.
      * 
      * @return \Illuminate\Support\Collection
@@ -69,6 +101,20 @@ class Gutenberg extends Cypress
     {
         return once(function() {
             $resource = config('gutenberg.resources.fragment');
+
+            return $resource::newModel()->get();
+        });
+    }
+
+    /**
+     * Get the cache widgets.
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    public static function cachedWidgets()
+    {
+        return once(function() {
+            $resource = config('gutenberg.resources.widget');
 
             return $resource::newModel()->get();
         });

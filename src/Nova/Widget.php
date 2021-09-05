@@ -3,13 +3,12 @@
 namespace Zareismail\Gutenberg\Nova;
 
 use Illuminate\Http\Request; 
-use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select; 
 use Laravel\Nova\Fields\Text; 
 use Zareismail\Gutenberg\Gutenberg;
 
-class Layout extends Resource
+class Widget extends Resource
 {
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -35,10 +34,17 @@ class Layout extends Resource
      */
     public function fields(Request $request)
     {
-        return [
+        return array_merge([
             ID::make(__('ID'), 'id')->sortable(), 
 
-            Select::make(__('Layout Status'), 'marked_as')
+            Select::make(__('Widget Handler'), 'widget')
+                ->options(Gutenberg::widgetCollection()->flip()->map(function($key, $widget) {
+                    return __(class_basename($widget));
+                }))
+                ->displayUsingLabels()
+                ->readonly(),
+
+            Select::make(__('Widget Status'), 'marked_as')
                 ->options([
                     'active' => __('Active'),
                     'inactive' => __('Inactive'), 
@@ -46,16 +52,26 @@ class Layout extends Resource
                 ->displayUsingLabels()
                 ->required()
                 ->rules('required')
-                ->default('inactive'), 
+                ->default('inactive'),  
 
-            Text::make(__('Layout Name'), 'name')
+            Text::make(__('Widget Name'), 'name')
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->placeholder(__('New Gutenberg Layout')),  
+                ->placeholder(__('New Gutenberg Widget')), 
 
-            BelongsToMany::make(__('Configure Widgets'), 'widgets', Widget::class),
-        ];
+        ], $this->resource->fields($request));
+    }
+
+    /**
+     * Determine if the current user can create new resources.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
     }
 
     /**
@@ -99,6 +115,8 @@ class Layout extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            Actions\CreateWidget::make()->standalone(),
+        ];
     }
 }

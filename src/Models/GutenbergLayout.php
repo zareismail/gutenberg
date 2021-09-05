@@ -41,6 +41,17 @@ class GutenbergLayout extends Model
     }
 
     /**
+     * Query the realted GutenbergFragment.
+     * 
+     * @return [type] [description]
+     */
+    public function widgets()
+    {
+        return $this->belongsToMany(GutenbergWidget::class, 'gutenberg_layout_widget')
+                    ->withPivot('order', 'config');
+    }
+
+    /**
      * Get the `uriKey` of corresponding fragment.
      * 
      * @return string
