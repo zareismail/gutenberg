@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select; 
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
@@ -99,6 +100,8 @@ class Website extends Resource
                 ->placeholder(__('New Gutenberg Website description')),
 
             HasMany::make(__('Website Fragments'), 'fragments', Fragment::class),
+
+            MorphToMany::make(__('Website Layouts'), 'layouts', Layout::class),
         ];
     }
 

@@ -11,6 +11,7 @@ class GutenbergWebsite extends Model
     use Activable; 
     use HasFactory; 
     use InteractsWithComponents;
+    use Layoutable;
     use Maintainable;
     use Markable;
 

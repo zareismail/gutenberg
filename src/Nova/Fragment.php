@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select; 
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -83,6 +84,8 @@ class Fragment extends Resource
                         return $query->where('website_id', $this->website_id);
                     }),
                 ]),  
+
+            MorphToMany::make(__('Website Layouts'), 'layouts', Layout::class),
         ];
     }
 

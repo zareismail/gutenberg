@@ -27,7 +27,7 @@ class GutenbergLayout extends Model
      */
     public function websites()
     {
-        return $this->belongsToMany(GutenbergWebsite::class, 'gutenberg_layout_website');
+        return $this->morphedByMany(GutenbergWebsite::class, 'layoutable', 'gutenberg_layoutable');
     }
 
     /**
@@ -37,7 +37,7 @@ class GutenbergLayout extends Model
      */
     public function fragments()
     {
-        return $this->belongsToMany(GutenbergFragment::class, 'gutenberg_fragment_layout');
+        return $this->morphedByMany(GutenbergFragment::class, 'layoutable', 'gutenberg_layoutable');
     }
 
     /**

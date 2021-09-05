@@ -36,6 +36,10 @@ class ServiceProvider extends LaravelServiceProvider
     protected function servingNova()
     {
         Nova::resources((array) config('gutenberg.resources'));
+        
+        collect(config('gutenberg.models'))->each(function($model, $resource) {
+            Nova::$resourcesByModel[$model] = $resource;
+        });
     }
 
     /**

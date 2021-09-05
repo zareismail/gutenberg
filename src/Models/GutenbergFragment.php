@@ -11,6 +11,7 @@ class GutenbergFragment extends Model
     use Activable; 
     use HasFactory; 
     use InteractsWithFragments; 
+    use Layoutable; 
     use Maintainable;
     use Markable;
 
