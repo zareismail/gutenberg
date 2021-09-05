@@ -25,7 +25,37 @@ class GutenbergLayout extends Layout
      */
     public function widgets(Request $request)
     { 
-        return [];
+        $layout = $request->isFragmentRequest() 
+                        ? $this->resolveFragmentLayout($request) 
+                        : $this->resolveComponentLayout($request); 
+
+        return $layout->resolveWidgets($request);
+    } 
+
+    /**
+     * Get the layout from fragment.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function resolveFragmentLayout(Request $request)
+    {
+        return tap($request->resolveFragment()->fragment()->layout($request), function($layout) {
+            abort_if(is_null($layout), 500);
+        }); 
+    } 
+
+    /**
+     * Get the layout from website.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function resolveComponentLayout(Request $request)
+    {
+        return tap($request->resolveComponent()->website()->layout($request), function($layout) {
+            abort_if(is_null($layout), 500);
+        });   
     }
 
     /**

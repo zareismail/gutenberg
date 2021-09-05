@@ -52,6 +52,17 @@ class GutenbergLayout extends Model
     }
 
     /**
+     * Get the availabel widgets.
+     * 
+     * @param  \Illuminate\Http\Request $request 
+     * @return array
+     */
+    public function resolveWidgets($request)
+    {
+        return $this->widgets->filter->isAvailable()->map->cypressWidget()->all();
+    } 
+
+    /**
      * Get the `uriKey` of corresponding fragment.
      * 
      * @return string

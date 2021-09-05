@@ -39,7 +39,7 @@ class GutenbergWidget extends Model
     public function uriKey()
     {
         return md5(static::class.$this->getKey());
-    }
+    } 
 
     /**
      * Get the CypressWidget fields.
@@ -53,6 +53,16 @@ class GutenbergWidget extends Model
         }
 
         return [];
+    }
+
+    /**
+     * Determine if the module available for render.
+     * 
+     * @return boolean
+     */
+    public function isAvailable()
+    {
+        return $this->isActive() && $this->hasCypressWidget();
     }
 
     /**
@@ -74,6 +84,8 @@ class GutenbergWidget extends Model
     {
         $widget = $this->widget;
 
-        return $widget::make($this->uriKey());
+        return tap($widget::make($this->uriKey()), function($widget) {
+            $widget->withMeta(collect($this->config)->toArray());
+        });
     }
 }
