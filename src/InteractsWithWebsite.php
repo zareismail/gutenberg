@@ -53,4 +53,14 @@ trait InteractsWithWebsite
             });
         });
     } 
+
+    /**
+     * Get the layout instance.
+     * 
+     * @return string                  
+     */
+    public function resolveLayout()
+    { 
+        return GutenbergLayout::make(); 
+    }
 }
