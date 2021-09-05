@@ -19,6 +19,7 @@ class CreateGutenbergFragmentsTable extends Migration
             $table->string('name', 200); 
             $table->string('fragment'); 
             $table->string('prefix')->nullable();
+            $table->boolean('marked_as')->default(0);  
             $table->json('config')->nullable();
             $table->timestamps();
         });
