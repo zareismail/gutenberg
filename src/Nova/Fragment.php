@@ -51,6 +51,17 @@ class Fragment extends Resource
                 ->required()
                 ->rules('required'),
 
+            Select::make(__('Fragment Status'), 'marked_as')
+                ->options([
+                    'active' => __('Active'),
+                    'inactive' => __('Inactive'),
+                    'maintenance' => __('In Maintenance'),
+                ])
+                ->displayUsingLabels()
+                ->required()
+                ->rules('required')
+                ->default('inactive'),
+
             Select::make(__('Fragment Handler'), 'fragment')
                 ->options(Gutenberg::fragmentCollection()->flip()->map(function($key, $fragment) {
                     return __(class_basename($fragment));

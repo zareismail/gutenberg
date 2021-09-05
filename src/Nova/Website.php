@@ -41,6 +41,17 @@ class Website extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
+            Select::make(__('Website Status'), 'marked_as')
+                ->options([
+                    'active' => __('Active'),
+                    'inactive' => __('Inactive'),
+                    'maintenance' => __('In Maintenance'),
+                ])
+                ->displayUsingLabels()
+                ->required()
+                ->rules('required')
+                ->default('inactive'),
+
             Select::make(__('Website Handler'), 'component')
                 ->options(Gutenberg::componentCollection()->flip()->map(function($key, $component) {
                     return __(class_basename($component));
