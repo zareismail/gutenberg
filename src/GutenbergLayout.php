@@ -41,7 +41,7 @@ class GutenbergLayout extends Layout
     public function resolveFragmentLayout(Request $request)
     {
         return tap($request->resolveFragment()->fragment()->layout($request), function($layout) {
-            abort_if(is_null($layout), 500);
+            abort_if(is_null($layout), 422, 'Not found any layout to display fragment');
         }); 
     } 
 
@@ -54,7 +54,7 @@ class GutenbergLayout extends Layout
     public function resolveComponentLayout(Request $request)
     {
         return tap($request->resolveComponent()->website()->layout($request), function($layout) {
-            abort_if(is_null($layout), 500);
+            abort_if(is_null($layout), 422, 'Not found any layout to display component');
         });   
     }
 
