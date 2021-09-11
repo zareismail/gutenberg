@@ -15,6 +15,16 @@ trait InteractsWithFragment
     {
         return static::fragment()->uriKey();
     } 
+     
+    /**
+     * Determine if the fragment is the fallback.
+     *
+     * @return boolean
+     */
+    public static function fallback(): bool
+    { 
+        return empty(trim(static::uriKey(), '/'));
+    }
 
     /**
      * Get  the component coresponding fragment.

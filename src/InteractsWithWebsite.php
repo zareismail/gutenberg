@@ -29,6 +29,16 @@ trait InteractsWithWebsite
     {
         return static::website()->uriKey();
     }
+     
+    /**
+     * Determine if the component is a fallback component.
+     *
+     * @return boolean
+     */
+    public static function fallback(): bool
+    { 
+        return empty(trim(static::uriKey(), '/'));
+    }
 
     /**
      * Get the component fragments.
