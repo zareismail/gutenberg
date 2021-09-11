@@ -70,4 +70,36 @@ trait InteractsWithFragments
             '--fragment' => $this->fragment,
         ]);
     }
+
+    /**
+     * Query where has the given fragments.
+     * 
+     * @param  \Illuminate\Database\Eloqeunt\Builder $query     
+     * @param  array  $fragments 
+     * @return \Illuminate\Database\Eloqeunt\Builder            
+     */
+    public function scopeFragments($query, array $fragments)
+    {
+        return $query->whereIn($this->getQualifiedFragmentName(), $fragments);
+    }
+ 
+    /**
+     * Get the table qualified uri name.
+     *
+     * @return string
+     */
+    public function getQualifiedFragmentName()
+    {
+        return $this->qualifyColumn($this->getFragmentName());
+    }
+
+    /**
+     * Get the uri for the model.
+     *
+     * @return string
+     */
+    public function getFragmentName()
+    {
+        return 'fragment';
+    }
 }
