@@ -15,19 +15,30 @@ class GutenbergLayout extends Layout
     public function viewName(): string
     {
         return 'gutenberg::layout';
-    }
+    } 
 
     /**
-     * Get the widgets available on the entity.
+     * Get the widgets available on the ComponentRequest.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function widgets(Request $request)
+    public function widgetsForComponent(Request $request)
     { 
-        $layout = $request->isFragmentRequest() 
-                        ? $this->resolveFragmentLayout($request) 
-                        : $this->resolveComponentLayout($request); 
+        $layout = $this->resolveComponentLayout($request); 
+
+        return $layout->resolveWidgets($request);
+    } 
+
+    /**
+     * Get the widgets available on the FragmentRequest.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function widgetsForFragment(Request $request)
+    { 
+        $layout = $this->resolveFragmentLayout($request); 
 
         return $layout->resolveWidgets($request);
     } 

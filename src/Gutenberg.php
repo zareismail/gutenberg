@@ -29,6 +29,13 @@ class Gutenberg extends Cypress
     public static $widgets = [];
 
     /**
+     * The registered template names.
+     *
+     * @var array
+     */
+    public static $templates = [];
+
+    /**
      * Register the given fragments.
      *
      * @param  array  $fragments
@@ -46,7 +53,7 @@ class Gutenberg extends Cypress
     /**
      * Return the base collection of Cypress fragments.
      *
-     * @return \Zareismail\Cypress\ComponentCollection
+     * @return \Illuminate\Support\Collection
      */
     public static function fragmentCollection()
     {
@@ -71,11 +78,36 @@ class Gutenberg extends Cypress
     /**
      * Return the base collection of Cypress widgets.
      *
-     * @return \Zareismail\Cypress\ComponentCollection
+     * @return \Illuminate\Support\Collection
      */
     public static function widgetCollection()
     {
         return Collection::make(static::$widgets);
+    } 
+
+    /**
+     * Register the given templates.
+     *
+     * @param  array  $templates
+     * @return static
+     */
+    public static function templates(array $templates)
+    {
+        static::$templates = array_unique(
+            array_merge(static::$templates, $templates)
+        );
+
+        return new static;
+    } 
+
+    /**
+     * Return the base collection of Cypress templates.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function templateCollection()
+    {
+        return Collection::make(static::$templates);
     } 
 
     /**
@@ -115,6 +147,20 @@ class Gutenberg extends Cypress
     {
         return once(function() {
             $resource = config('gutenberg.resources.widget');
+
+            return $resource::newModel()->get();
+        });
+    }
+
+    /**
+     * Get the cache templates.
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    public static function cachedTemplates()
+    {
+        return once(function() {
+            $resource = config('gutenberg.resources.template');
 
             return $resource::newModel()->get();
         });

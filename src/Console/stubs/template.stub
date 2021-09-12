@@ -1,0 +1,21 @@
+<?php
+
+namespace {{ namespace }}; 
+
+use Zareismail\Gutenberg\Variable;
+use Zareismail\Gutenberg\Template; 
+
+class {{ class }} extends Template 
+{       
+    /**
+     * Register the given variables.
+     * 
+     * @return array
+     */
+    public static function variables(): array
+    {
+        return [
+            Variable::make('variableName', 'Variable help'),
+        ];
+    }
+}

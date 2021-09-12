@@ -52,6 +52,7 @@ class ServiceProvider extends LaravelServiceProvider
         $this->commands([
             Console\ComponentCommand::class,
             Console\FragmentCommand::class,
+            Console\TemplateCommand::class,
         ]);
     }
 }
