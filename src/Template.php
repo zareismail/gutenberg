@@ -102,7 +102,7 @@ abstract class Template extends Fluent implements Renderable
      */
     protected function value($key, $default = null)
     {
-        return $this->get($key, $default);
+        return data_get($this->getAttributes(), $key, $default);
     } 
 
     /**
