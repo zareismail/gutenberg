@@ -39,6 +39,17 @@ class GutenbergWebsite extends Model
      */
     public function uriKey()
     {
-        return $this->directory;
+        return trim($this->directory, '/');
+    }
+
+    /**
+     * Get the url for given uri.
+     * 
+     * @param  string $uri 
+     * @return string      
+     */
+    public function getUrl(string $uri = '')
+    {
+        return url($this->uriKey().'/'.trim($uri, '/'));
     }
 }

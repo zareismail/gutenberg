@@ -39,6 +39,17 @@ class GutenbergFragment extends Model
      */
     public function uriKey()
     {
-        return $this->prefix;
+        return trim($this->prefix, '/');
+    }
+
+    /**
+     * Get the url for given uri.
+     * 
+     * @param  string $uri 
+     * @return string      
+     */
+    public function getUrl(string $uri = '')
+    {
+        return $this->website->getUrl($this->uriKey().'/'.trim($uri, '/'));
     }
 }
