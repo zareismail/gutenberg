@@ -67,7 +67,14 @@ trait HasTemplate
                     ->where('template', $templateName)
                     ->keyBy->getKey()
                     ->map->name;
-    }
+    }   
+
+    /**
+     * Serialize the widget fro template.
+     * 
+     * @return array
+     */
+    abstract public function serializeForTemplate(): array;
 
     /**
      * Get the evaluated contents of the object.
@@ -78,6 +85,6 @@ trait HasTemplate
     { 
         $template = $this->metaValue('_template');
 
-        return $template->gutenbergTemplate($this->jsonSerialize())->render(); 
+        return $template->gutenbergTemplate($this->serializeForTemplate())->render(); 
     }
 }
