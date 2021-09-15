@@ -3,14 +3,15 @@
 namespace Zareismail\Gutenberg\Nova;
 
 use Armincms\Fields\BelongsToMany;
-use Illuminate\Http\Request; 
-use Laravel\Nova\Fields\BelongsToMany as NovaBelongsToMany;
-use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;   
+use Laravel\Nova\Fields\ID;  
+use Laravel\Nova\Fields\Boolean; 
 use Laravel\Nova\Fields\Select; 
-use Laravel\Nova\Fields\Text; 
+use Laravel\Nova\Fields\Text;  
+use Whitecube\NovaFlexibleContent\Flexible;
 use Zareismail\Gutenberg\Gutenberg;
 
-class Layout extends Resource
+class Plugin extends Resource
 {
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -37,9 +38,9 @@ class Layout extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(), 
+            ID::make(__('ID'), 'id')->sortable(),  
 
-            Select::make(__('Layout Status'), 'marked_as')
+            Select::make(__('Widget Status'), 'marked_as')
                 ->options([
                     'active' => __('Active'),
                     'inactive' => __('Inactive'), 
@@ -47,19 +48,40 @@ class Layout extends Resource
                 ->displayUsingLabels()
                 ->required()
                 ->rules('required')
-                ->default('inactive'), 
+                ->default('inactive'),
 
-            Text::make(__('Layout Name'), 'name')
+            Text::make(__('Plugin Name'), 'name')
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->placeholder(__('New Gutenberg Layout')), 
+                ->placeholder(__('New Gutenberg Plugin')), 
 
-            BelongsToMany::make(__('Layout Plugins'), 'plugins', Plugin::class), 
+            BelongsToMany::make(__('Plugin Dependecy'), 'plugins', static::class), 
 
-            NovaBelongsToMany::make(__('Configure Widgets'), 'widgets', Widget::class),
+            Flexible::make('Plugin Assets', 'assets')
+                ->required()
+                ->rules('required')
+                ->collapsed()
+                ->addLayout(__('Plugin Asset'), 'asset', [
+                    Select::make(__('Asset Type'), 'type')
+                        ->required()
+                        ->rules('required')
+                        ->default('js')
+                        ->options([
+                            'js' => __('Javascript'),
+                            'css' => __('Style Sheet'),
+                        ]),
+
+                    Text::make(__('Asset URL'), 'url')
+                        ->required()
+                        ->rules('required'), 
+
+                    Boolean::make(__('To Head'), 'head')
+                        ->default(false),
+                ]), 
+
         ];
-    }
+    }  
 
     /**
      * Get the cards available for the request.

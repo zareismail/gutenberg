@@ -4,6 +4,7 @@ namespace Zareismail\Gutenberg;
 
 use Illuminate\Http\Request;
 use Zareismail\Cypress\Layout;  
+use Zareismail\Gutenberg\Gutenberg;
 
 class GutenbergLayout extends Layout
 {        
@@ -77,6 +78,11 @@ class GutenbergLayout extends Layout
      */
     public function plugins(Request $request)
     {
-        return [];
+        $layout = $request->isComponentRequest() 
+            ? $this->resolveComponentLayout($request) 
+            : $this->resolveFragmentLayout($request);
+
+
+        return $layout->plugins->filter->isActive()->flatMap->gutenbergPlugins()->all();
     } 
 }

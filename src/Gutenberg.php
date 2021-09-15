@@ -162,7 +162,7 @@ class Gutenberg extends Cypress
         return once(function() {
             $resource = config('gutenberg.resources.template');
 
-            return $resource::newModel()->get();
+            return $resource::newModel()->with('plugins')->get();
         });
     }
 }

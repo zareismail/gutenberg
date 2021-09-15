@@ -2,32 +2,82 @@
 
 namespace Zareismail\Gutenberg; 
 
+use Zareismail\Cypress\Http\Requests\CypressRequest;
+
 trait HasTemplate  
-{    
+{      
     /**
-     * Render a template for given data.
+     * Bootstrap the resource for the given request.
      * 
-     * @param  string $templateId
-     * @param  array  $data      
-     * @return string            
+     * @param  \Zareismail\Cypress\Http\Requests\CypressRequest $request 
+     * @param  \Zareismail\Cypress\Resource $layout 
+     * @return void                  
      */
-    public function renderTemplate($templateId, array $data = [])
+    public function bootstrapTemplate(CypressRequest $request, $layout)
     { 
-        return $this->template($templateId)
-                    ->gutenbergTemplate($data)
-                    ->render();
+        $this->withMeta([
+            '_template' => tap($this->template(), function($template) use ($request, $layout) {
+                $template
+                        ->plugins
+                        ->filter->isActive()
+                        ->flatMap->gutenbergPlugins()
+                        ->each->boot($request, $layout);
+            }),
+        ]);
     }
 
     /**
-     * Get the tempalte for the given key.
+     * Get the template instance.
      * 
-     * @param integer  $key 
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function template()
+    {
+        return $this->findTemplate($this->getTemplateId());
+    }
+
+    /**
+     * Get the template id.
+     * 
+     * @return integer
+     */
+    abstract public function getTemplateId(): int; 
+
+    /**
+     * Find template for the given key.
+     * 
+     * @param integer  $templateId 
      * @return \Zareismail\Gutenberg\Models\GutenbergTemplate           
      */
-    public function template($key)
+    public function findTemplate($templateId)
     {
-        return tap(Gutenberg::cachedTemplates()->find($key), function($template) {
+        return tap(Gutenberg::cachedTemplates()->find($templateId), function($template) {
             abort_if(is_null($template), 422, 'Not found template to display widget');
         });
+    }
+
+    /**
+     * Get the available template for the given template name.
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    protected static function availableTemplates(string $templateName)
+    {
+        return Gutenberg::cachedTemplates()
+                    ->where('template', $templateName)
+                    ->keyBy->getKey()
+                    ->map->name;
+    }
+
+    /**
+     * Get the evaluated contents of the object.
+     *
+     * @return string
+     */
+    public function render()
+    { 
+        $template = $this->metaValue('_template');
+
+        return $template->gutenbergTemplate($this->jsonSerialize())->render(); 
     }
 }

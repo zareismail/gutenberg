@@ -19,6 +19,12 @@ class GutenbergTemplate extends Model
     protected $casts = [  
     ]; 
 
+    public function plugins()
+    {
+        return $this->belongsToMany(GutenbergPlugin::class, 'gutenberg_plugin_template')
+                    ->withPivot('order');
+    }
+
     /**
      * Get the `uriKey` of corresponding fragment.
      * 

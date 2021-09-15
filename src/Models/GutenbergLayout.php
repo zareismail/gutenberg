@@ -3,14 +3,12 @@
 namespace Zareismail\Gutenberg\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Zareismail\Markable\Markable;
+use Illuminate\Database\Eloquent\Model; 
 
 class GutenbergLayout extends Model
 {
     use Activable; 
-    use HasFactory; 
-    use Markable;
+    use HasFactory;  
 
     /**
      * The attributes that should be cast to native types.
@@ -38,6 +36,18 @@ class GutenbergLayout extends Model
     public function fragments()
     {
         return $this->morphedByMany(GutenbergFragment::class, 'layoutable', 'gutenberg_layoutable');
+    }
+
+    /**
+     * Query the realted GutenbergPlugin.
+     * 
+     * @return \Illuminate\Database\Eloquent\Rleations\BelongsToMany
+     */
+    public function plugins()
+    {
+        return $this->belongsToMany(GutenbergPlugin::class, 'gutenberg_layout_plugin')
+                    ->withPivot('order')
+                    ->with('plugins');
     }
 
     /**
