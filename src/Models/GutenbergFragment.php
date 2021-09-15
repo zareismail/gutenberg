@@ -3,8 +3,7 @@
 namespace Zareismail\Gutenberg\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Zareismail\Markable\Markable;
+use Illuminate\Database\Eloquent\Model; 
 
 class GutenbergFragment extends Model
 {
@@ -12,8 +11,7 @@ class GutenbergFragment extends Model
     use HasFactory; 
     use InteractsWithFragments; 
     use Layoutable; 
-    use Maintainable;
-    use Markable;
+    use Maintainable; 
 
     /**
      * The attributes that should be cast to native types.

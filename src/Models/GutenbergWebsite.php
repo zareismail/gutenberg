@@ -4,7 +4,6 @@ namespace Zareismail\Gutenberg\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Zareismail\Markable\Markable;
 
 class GutenbergWebsite extends Model
 {
@@ -12,8 +11,7 @@ class GutenbergWebsite extends Model
     use HasFactory; 
     use InteractsWithComponents;
     use Layoutable;
-    use Maintainable;
-    use Markable;
+    use Maintainable; 
 
     /**
      * The attributes that should be cast to native types.

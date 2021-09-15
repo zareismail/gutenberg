@@ -3,14 +3,12 @@
 namespace Zareismail\Gutenberg\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Zareismail\Markable\Markable;
+use Illuminate\Database\Eloquent\Model; 
 
 class GutenbergWidget extends Model
 {
     use Activable; 
-    use HasFactory; 
-    use Markable;
+    use HasFactory;  
 
     /**
      * The attributes that should be cast to native types.

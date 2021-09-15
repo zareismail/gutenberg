@@ -2,8 +2,12 @@
 
 namespace Zareismail\Gutenberg\Models; 
 
+use Zareismail\Markable\Markable;
+
 trait Activable 
 {    
+    use Markable;
+    
     /**
      * Mark the model with the "active" value.
      *
