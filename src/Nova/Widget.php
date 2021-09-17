@@ -34,7 +34,7 @@ class Widget extends Resource
      */
     public function fields(Request $request)
     {
-        return array_merge([
+        return [
             ID::make(__('ID'), 'id')->sortable(), 
 
             Select::make(__('Widget Handler'), 'widget')
@@ -60,7 +60,10 @@ class Widget extends Resource
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Widget')), 
 
-        ], $this->resource->fields($request));
+            $this->mergeWhen(! $request->isResourceIndexRequest(), function() use ($request) {
+                return $this->resource->fields($request);
+            }),
+        ];
     }
 
     /**
