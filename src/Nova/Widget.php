@@ -116,7 +116,12 @@ class Widget extends Resource
     public function actions(Request $request)
     {
         return [
-            Actions\CreateWidget::make()->standalone(),
+            Actions\CreateWidget::make()
+                ->standalone()
+                ->canSee(function($request) {
+                    return $request->user()->can('create', config('gutenberg.models.'.static::class)) &&
+                         ! $request->viaRelationship();
+                }),
         ];
     }
 }
