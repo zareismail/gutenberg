@@ -121,6 +121,7 @@ class Widget extends Resource
         return [
             Actions\CreateWidget::make()
                 ->standalone()
+                ->onlyOnIndex()
                 ->canSee(function($request) {
                     return $request->user()->can('create', config('gutenberg.models.'.static::class)) &&
                          ! $request->viaRelationship();
