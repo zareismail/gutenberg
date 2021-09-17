@@ -6,6 +6,7 @@ use Armincms\Fields\BelongsToMany;
 use Illuminate\Http\Request; 
 use Laravel\Nova\Fields\BelongsToMany as NovaBelongsToMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select; 
 use Laravel\Nova\Fields\Text; 
 use Zareismail\Gutenberg\Gutenberg;
@@ -55,9 +56,25 @@ class Layout extends Resource
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Layout')), 
 
-            BelongsToMany::make(__('Layout Plugins'), 'plugins', Plugin::class), 
+            BelongsToMany::make(__('Layout Plugins'), 'plugins', Plugin::class)
+                ->fields(function() {
+                   return [
+                        Number::make(__('Widget Order'), 'order')
+                            ->default(time())
+                            ->required()
+                            ->rules('required'),
+                   ]; 
+                }), 
 
-            NovaBelongsToMany::make(__('Configure Widgets'), 'widgets', Widget::class),
+            NovaBelongsToMany::make(__('Configure Widgets'), 'widgets', Widget::class)
+                ->fields(function() {
+                   return [
+                        Number::make(__('Widget Order'), 'order')
+                            ->default(time())
+                            ->required()
+                            ->rules('required'),
+                   ]; 
+                }),
         ];
     }
 

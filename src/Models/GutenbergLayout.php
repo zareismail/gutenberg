@@ -47,7 +47,8 @@ class GutenbergLayout extends Model
     {
         return $this->belongsToMany(GutenbergPlugin::class, 'gutenberg_layout_plugin')
                     ->withPivot('order')
-                    ->with('plugins');
+                    ->with('plugins')
+                    ->orderBy('order');
     }
 
     /**
@@ -58,7 +59,8 @@ class GutenbergLayout extends Model
     public function widgets()
     {
         return $this->belongsToMany(GutenbergWidget::class, 'gutenberg_layout_widget')
-                    ->withPivot('order', 'config');
+                    ->withPivot('order', 'config')
+                    ->orderBy('order');
     }
 
     /**
