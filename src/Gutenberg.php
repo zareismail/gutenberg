@@ -134,7 +134,7 @@ class Gutenberg extends Cypress
         return once(function() {
             $resource = config('gutenberg.resources.fragment');
 
-            return $resource::newModel()->get();
+            return $resource::newModel()->with('website')->get();
         });
     }
 
@@ -148,7 +148,7 @@ class Gutenberg extends Cypress
         return once(function() {
             $resource = config('gutenberg.resources.widget');
 
-            return $resource::newModel()->get();
+            return $resource::newModel()->with('plugins')->get();
         });
     }
 
