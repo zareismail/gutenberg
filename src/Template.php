@@ -3,14 +3,16 @@
 namespace Zareismail\Gutenberg; 
 
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Zareismail\Cypress\Cypress;
 use Zareismail\Cypress\Makeable;
+use Zareismail\Gutenberg\Compilers\Compiler;
 
 abstract class Template extends Fluent implements Renderable
 {      
-    use Makeable;
+    use Makeable; 
 
     /**
      * The template html string.
@@ -18,6 +20,25 @@ abstract class Template extends Fluent implements Renderable
      * @var string
      */
     protected $html = '';
+
+    /**
+     * List of default compilers.
+     * 
+     * @var array
+     */
+    protected $compilers = [
+        Compilers\CompilesConditionals::class,
+        Compilers\CompilesTranslations::class,
+        Compilers\CompilesVariables::class,
+    ];
+
+    /**
+     * List of custom compilers.
+     * 
+     * @var array
+     */
+    protected static $customCompilers = [ 
+    ];
 
     /**
      * Register the given variables.
@@ -65,54 +86,60 @@ abstract class Template extends Fluent implements Renderable
      * @return string
      */
     public function render()
-    {           
-        $html = str_replace('/@@/', '__PCALEHOLDER__', $this->getHtml());
-
-        $string = preg_replace_callback($this->getPatterns(), function($matches) {
-            list($string, $method, $key) = $matches; 
-            $default = $matches[3] ?? null;  
-
-            return method_exists($this, $method) 
-                ? $this->{$method}($key, $default) 
-                : $string; 
-        }, $html);
-
-        return str_replace('__PCALEHOLDER__', '@@', $string);
+    {        
+        return Cache::sear($this->cacheKey(), function() {
+            return $this->runCompilers($this->getHtml(), $this->jsonSerialize());
+        });
     }
 
     /**
-     * Get the regex patterns.
+     * Get the rendering cachekey.
+     * 
+     * @return string
+     */
+    public function cacheKey(): string
+    {
+        return md5($this->toJson().$this->getHtml());
+    }
+
+    /**
+     * Run the available compilesr on the given string.
+     * 
+     * @param  string $expression
+     * @param  array  $attributes
+     * @return string            
+     */
+    public function runCompilers(string $expression, array $attributes = [])
+    {
+        return collect($this->compilers())->reduce(function($expression, $compiler) use ($attributes) {
+            return $compiler->compile($expression, $attributes);
+        }, $expression);
+    }
+
+    /**
+     * Get the compiler callbacks.
      * 
      * @return array
      */
-    private function getPatterns()
+    protected function compilers()
     {
-        return [
-            '/(?<!@)\@(\w+)\(([^@]+),([^@]+)\)/',
-            '/(?<!@)\@(\w+)\(([^@]+)\)/',
-        ];
+        return collect($this->compilers)->map(function($compiler) {
+                    return $compiler::make();
+                })
+                ->merge(static::$customCompilers) 
+                ->all();
+    } 
+
+    /**
+     * Register custom compiler.
+     * 
+     * @param  \Zareismail\Gutenberg\Compilers\Compiler $compiler 
+     * @return string           
+     */
+    public static function extends(Compiler $compiler)
+    {
+        static::$customCompilers[] = $compiler;
+
+        return new static;
     }
-
-    /**
-     * Get the value for the given key.
-     * 
-     * @param  string $key     
-     * @param  mixed $default 
-     * @return mixed          
-     */
-    protected function value($key, $default = null)
-    {
-        return data_get($this->getAttributes(), $key, $default);
-    } 
-
-    /**
-     * Get the transaltion for the given key.
-     * 
-     * @param  string $key      
-     * @return string          
-     */
-    protected function trans($key)
-    {
-        return __($key);
-    } 
 }
