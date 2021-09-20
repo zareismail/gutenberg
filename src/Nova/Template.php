@@ -69,25 +69,67 @@ class Template extends Resource
                     return collect($this->resource->variables())->keyBy->name()->map->help();
                 }),
 
-            Text::make(__('Variable Using'))
-                ->readonly()
+            Text::make(__('Variable Using')) 
                 ->required()
                 ->onlyOnForms()
                 ->textAlign('left')
                 ->help(__("Use the mentioned value to replace variable value."))
+                ->fillUsing(function() {})
                 ->resolveUsing(function() {
-                    return '@value(VariableName, Default Value)';
-                }),
+                    return '{{  variableName or Default Value }}';
+                })
+                ->withMeta([
+                    'extraAttributes' => [
+                        'readonly' => true,
+                        'style' => 'direction: ltr !important',
+                    ]
+                ]),
 
-            Text::make(__('Translation Using'))
-                ->readonly()
+            Text::make(__('Translation Using')) 
                 ->required()
                 ->onlyOnForms()
                 ->textAlign('left')
                 ->help(__("Use the mentioned value to replace translation string."))
+                ->fillUsing(function() {})
                 ->resolveUsing(function() {
-                    return '@trans(Translation String)';
-                }),
+                    return '{{ _(translation string) }}';
+                })
+                ->withMeta([
+                    'extraAttributes' => [
+                        'readonly' => true,
+                        'style' => 'direction: ltr !important',
+                    ]
+                ]),
+
+            Text::make(__('If Condition')) 
+                ->required()
+                ->onlyOnForms()
+                ->textAlign('left')
+                ->help(__("Wrap your string in the below pattern to display when condition is truth."))
+                ->fillUsing(function() {})
+                ->resolveUsing(function() {
+                    return '{% if CONDTION %} your string {% endif %}';
+                })
+                ->withMeta([
+                    'extraAttributes' => [
+                        'readonly' => true,
+                        'style' => 'direction: ltr !important',
+                    ]
+                ]),
+
+            Text::make(__('Unless Condition')) 
+                ->required()
+                ->onlyOnForms()
+                ->help(__("Wrap your string in the below pattern to display when condition is not truth."))
+                ->resolveUsing(function() {
+                    return '{% unless CONDTION %} your string {% endunless %}';
+                })
+                ->withMeta([
+                    'extraAttributes' => [
+                        'readonly' => true,
+                        'style' => 'direction: ltr !important',
+                    ]
+                ]),
 
             Code::make(__('Template HTML'), 'html')
                 ->required()
