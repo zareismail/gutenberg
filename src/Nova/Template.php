@@ -108,7 +108,7 @@ class Template extends Resource
                 ->help(__("Wrap your string in the below pattern to display when condition is truth."))
                 ->fillUsing(function() {})
                 ->resolveUsing(function() {
-                    return '{% if CONDTION %} your string {% endif %}';
+                    return '{% if variableName %} your string {% endif %}';
                 })
                 ->withMeta([
                     'extraAttributes' => [
@@ -123,7 +123,7 @@ class Template extends Resource
                 ->help(__("Wrap your string in the below pattern to display when condition is not truth."))
                 ->fillUsing(function() {})
                 ->resolveUsing(function() {
-                    return '{% unless CONDTION %} your string {% endunless %}';
+                    return '{% unless variableName %} your string {% endunless %}';
                 })
                 ->withMeta([
                     'extraAttributes' => [
