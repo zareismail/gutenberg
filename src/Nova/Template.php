@@ -121,6 +121,7 @@ class Template extends Resource
                 ->required()
                 ->onlyOnForms()
                 ->help(__("Wrap your string in the below pattern to display when condition is not truth."))
+                ->fillUsing(function() {})
                 ->resolveUsing(function() {
                     return '{% unless CONDTION %} your string {% endunless %}';
                 })
