@@ -18,7 +18,8 @@ class CreateGutenbergFragmentsTable extends Migration
             $table->foreignId('website_id')->constrained('gutenberg_websites');
             $table->string('name', 200); 
             $table->string('fragment'); 
-            $table->string('prefix')->nullable();
+            $table->string('prefix');
+            $table->boolean('fallback')->default(false);
             $table->string('marked_as', 20)->default('inactive');  
             $table->json('config')->nullable();
             $table->timestamps();

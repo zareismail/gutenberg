@@ -23,7 +23,7 @@ trait InteractsWithFragment
      */
     public static function fallback(): bool
     { 
-        return empty(trim(static::uriKey(), '/'));
+        return static::fragment()->isFallback();
     }
 
     /**

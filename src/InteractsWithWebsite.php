@@ -37,7 +37,7 @@ trait InteractsWithWebsite
      */
     public static function fallback(): bool
     { 
-        return empty(trim(static::uriKey(), '/'));
+        return static::website()->isFallback();
     }
 
     /**

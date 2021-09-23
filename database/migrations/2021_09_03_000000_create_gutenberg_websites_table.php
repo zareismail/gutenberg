@@ -19,7 +19,8 @@ class CreateGutenbergWebsitesTable extends Migration
             $table->string('title', 200);
             $table->string('description', 500);
             $table->string('component'); 
-            $table->string('directory')->nullable()->unique();
+            $table->string('directory')->unique();
+            $table->boolean('fallback')->default(false);
             $table->string('locale')->default(app()->getLocale()); 
             $table->string('marked_as', 20)->default('inactive');
             $table->json('config')->nullable();

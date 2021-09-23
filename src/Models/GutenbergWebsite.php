@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class GutenbergWebsite extends Model
 {
     use Activable; 
+    use Fallback; 
     use HasFactory; 
     use InteractsWithComponents;
     use Layoutable;
@@ -50,6 +51,10 @@ class GutenbergWebsite extends Model
      */
     public function getUrl(string $uri = '')
     {
-        return url($this->uriKey().'/'.trim($uri, '/'));
+        if (! $this->isFallback()) {
+            $uri = $this->uriKey().'/'.trim($uri, '/');
+        }
+
+        return url($uri);
     }
 }

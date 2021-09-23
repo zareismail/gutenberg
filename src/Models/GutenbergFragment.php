@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class GutenbergFragment extends Model
 {
     use Activable; 
+    use Fallback; 
     use HasFactory; 
     use InteractsWithFragments; 
     use Layoutable; 
@@ -49,7 +50,11 @@ class GutenbergFragment extends Model
      * @return string      
      */
     public function getUrl(string $uri = '')
-    {
-        return $this->website->getUrl($this->uriKey().'/'.trim($uri, '/'));
+    { 
+        if (! $this->isFallback()) {
+            $uri = $this->uriKey().'/'.trim($uri, '/');
+        }
+
+        return $this->website->getUrl($uri);
     }
 }

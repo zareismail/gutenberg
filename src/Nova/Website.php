@@ -5,6 +5,7 @@ namespace Zareismail\Gutenberg\Nova;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select; 
@@ -88,10 +89,23 @@ class Website extends Resource
             Text::make(__('Website Directory'), 'directory') 
                 ->sortable()
                 ->rules([
-                    Rule::unique('gutenberg_websites')->ignore($this->id)->where(function($query) {
-                        return $query->where('locale', '!=', $this->locale);
-                    }),
+                    Rule::unique('gutenberg_websites')
+                        ->ignore($this->id)
+                        ->where(function($query) {
+                            return $query->where('locale', '!=', $this->locale);
+                        }),
                 ]), 
+
+            Boolean::make(__('Fallback Website'), 'fallback')
+                ->help(__('Determine if you need to ignore prefixing website paths'))
+                ->sortable()
+                ->rules([
+                    Rule::unique('gutenberg_websites')
+                        ->ignore($this->id)
+                        ->where(function($query) {
+                            return $query->where($this->getQualifiedFallback(), 1);
+                        }),
+                ]),
 
             Textarea::make(__('Website Description'), 'description')
                 ->sortable()

@@ -5,6 +5,7 @@ namespace Zareismail\Gutenberg\Nova;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select; 
@@ -80,10 +81,25 @@ class Fragment extends Resource
             Text::make(__('Fragment Prefix'), 'prefix') 
                 ->sortable()
                 ->rules([
-                    Rule::unique('gutenberg_fragments')->ignore($this->id)->where(function($query) {
-                        return $query->where('website_id', $this->website_id);
-                    }),
+                    'required',
+                    Rule::unique('gutenberg_fragments')
+                        ->ignore($this->id)
+                        ->where(function($query) {
+                            return $query->where('website_id', $this->website_id);
+                        }),
                 ]),  
+
+            Boolean::make(__('Fallback Fragment'), 'fallback')
+                ->help(__('Determine if you need to ignore prefixing fragment paths'))
+                ->sortable()
+                ->rules([
+                    Rule::unique('gutenberg_fragments')
+                        ->ignore($this->id)
+                        ->where(function($query) {
+                            return $query->where($this->getQualifiedFallback(), 1)
+                                         ->where('website_id', $this->website_id);
+                        }),
+                ]),
 
             MorphToMany::make(__('Website Layouts'), 'layouts', Layout::class),
         ];
