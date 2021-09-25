@@ -47,7 +47,10 @@ trait InteractsWithWebsite
      */
     public function fragments(): array
     {
-        return static::website()->fragments->map->cypressFragment()->toArray();
+        return static::website()
+                    ->fragments->map->cypressFragment()
+                    ->merge(parent::fragments())
+                    ->toArray();
     }
 
     /**
