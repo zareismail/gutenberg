@@ -45,7 +45,7 @@ trait InteractsWithComponents
      */
     public function cypressComponent()
     {
-        return app()->getNamespace().'Gutenberg\\'.$this->cypressComponentName();
+        return strval(app()->getNamespace().'Gutenberg\\'.$this->cypressComponentName());
     }
 
     /**
