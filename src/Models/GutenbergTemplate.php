@@ -26,6 +26,28 @@ class GutenbergTemplate extends Model
     }
 
     /**
+     * Query where has the given template handlers.
+     * 
+     * @param  \Illuminate\Database\Elqoeunt\Builder $query     
+     * @param  string|array $templates 
+     * @return \Illuminate\Database\Elqoeunt\Builder            
+     */
+    public function scopeTemplates($query, $templates)
+    {
+        return $query->whereIn($this->getQualifiedTemplateName(), (array) $templates);
+    }
+
+    /**
+     * Get the table qualified template name.
+     *
+     * @return string
+     */
+    public function getQualifiedTemplateName()
+    {
+        return $this->qualifyColumn('template');
+    }
+
+    /**
      * Get the `uriKey` of corresponding fragment.
      * 
      * @return string
