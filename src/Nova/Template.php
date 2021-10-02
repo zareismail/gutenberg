@@ -43,7 +43,7 @@ class Template extends Resource
 
             Select::make(__('Template Handler'), 'template')
                 ->options(Gutenberg::templateCollection()->flip()->map(function($key, $template) {
-                    return __(class_basename($template));
+                    return class_exists($template) ? $template::label() : $template;
                 }))
                 ->displayUsingLabels()
                 ->readonly(), 
