@@ -41,6 +41,18 @@ abstract class Template extends Fluent implements Renderable
     ];
 
     /**
+     * Set the attributes.
+     * 
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
      * Register the given variables.
      * 
      * @return array
