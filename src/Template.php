@@ -27,6 +27,7 @@ abstract class Template extends Fluent implements Renderable
      * @var array
      */
     protected $compilers = [
+        Compilers\CompilesEach::class,
         Compilers\CompilesConditionals::class,
         Compilers\CompilesTranslations::class,
         Compilers\CompilesVariables::class,
@@ -136,7 +137,7 @@ abstract class Template extends Fluent implements Renderable
     protected function compilers()
     {
         return collect($this->compilers)->map(function($compiler) {
-                    return $compiler::make();
+                    return $compiler::make($this);
                 })
                 ->merge(static::$customCompilers) 
                 ->all();
