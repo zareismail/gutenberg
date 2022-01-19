@@ -132,6 +132,21 @@ class Template extends Resource
                     ]
                 ]),
 
+            Text::make(__('Each Loop')) 
+                ->required()
+                ->onlyOnForms()
+                ->help(__("Navigate through items and display their contents."))
+                ->fillUsing(function() {})
+                ->resolveUsing(function() {
+                    return '{# each variableName,itemName,indexName #} your string {# endeach #}';
+                })
+                ->withMeta([
+                    'extraAttributes' => [
+                        'readonly' => true,
+                        'style' => 'direction: ltr !important',
+                    ]
+                ]),
+
             Code::make(__('Template HTML'), 'html')
                 ->required()
                 ->rules('required'),
