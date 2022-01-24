@@ -64,6 +64,6 @@ return [
     */
    
     'locales' => [ 
-        'en' => __('English'),
+        'en' => 'English',
     ], 
 ];
