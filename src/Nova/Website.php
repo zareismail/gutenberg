@@ -63,7 +63,7 @@ class Website extends Resource
                 ->rules('required'),
 
             Select::make(__('Website Language'), 'locale')
-                ->options((array) config('gutenberg.locales'))
+                ->options(static::locales())
                 ->displayUsingLabels()
                 ->sortable()
                 ->required()
@@ -117,6 +117,18 @@ class Website extends Resource
 
             MorphToMany::make(__('Website Layouts'), 'layouts', Layout::class),
         ];
+    }
+
+    /**
+     * Get the available locales.
+     * 
+     * @return array
+     */
+    public static function locales()
+    {
+        return collect((array) config('gutenberg.locales'))->map(function($language) {
+            return __($language);
+        })->toArray();
     }
 
     /**
