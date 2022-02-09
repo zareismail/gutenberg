@@ -41,12 +41,12 @@ class CompilesEach implements Compiler
         return preg_replace_callback($pattern, function($matches) use ($attributes) {
             list($variableName, $valueName, $keyName) = $this->parseArguments($matches['arguments']);
             $items = data_get($attributes, $variableName, []);
-            $reduceCallback = function($html, $item, $key) use ($matches, $keyName, $valueName) {
+            $reduceCallback = function($html, $item, $key) use ($matches, $keyName, $valueName, $attributes) {
                 $variables = array_merge($attributes, [
                     $keyName => $key,
                     $valueName => $item,
                 ]);
-                
+
                 $compiled = $this->template->runCompilers($matches['expression'], $variables);
 
                 return $html . $compiled;
