@@ -19,10 +19,10 @@ class CompilesVariables implements Compiler
     {
     	$pattern = "/\{\{\s*(?<variable>[0-9a-zA-Z-_.]+)(?:\s*or\s*(?<default>[^}]+))?\s*\}\}/"; 
 
-        return preg_replace_callback($pattern, function($matches) use ($attributes) {  
-            $value = data_get($attributes, $matches['variable'], trim($matches['default'] ?? ''));
-
-            return is_string($value) ? $value : "Error:'{$matches['variable']}' is not a string";
+        return preg_replace_callback($pattern, function($matches) use ($attributes) {   
+            return strval(data_get(
+                $attributes, $matches['variable'], trim($matches['default'] ?? '')
+            ));  
         }, $expression); 
     }
 }
