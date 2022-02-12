@@ -55,8 +55,11 @@ class CreateTemplate extends Action
         return [
             Select::make(__('Template Handler'), 'template')
                 ->options(Gutenberg::templateCollection()->flip()->map(function($key, $template) {
-                    return $template::label();
-                }))
+                    return [
+                        'label' => $template::label(),
+                        'group' => $template::group(),
+                    ];
+                })->toArray())
                 ->required()
                 ->rules('required'),
 
@@ -64,5 +67,5 @@ class CreateTemplate extends Action
                 ->required()
                 ->rules('required'),
         ];
-    }
+    } 
 }

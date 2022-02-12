@@ -15,6 +15,13 @@ abstract class Template extends Fluent implements Renderable
     use Makeable; 
 
     /**
+     * The logical group associated with the template.
+     *
+     * @var string
+     */
+    public static $group = 'Other';
+
+    /**
      * The template html string.
      * 
      * @var string
@@ -68,6 +75,16 @@ abstract class Template extends Fluent implements Renderable
     public static function label()
     {
         return Str::title(Str::snake(class_basename(get_called_class()), ' '));
+    }
+
+    /**
+     * Get the logical group associated with the resource.
+     *
+     * @return string
+     */
+    public static function group()
+    {
+        return static::$group;
     }
 
     /**
