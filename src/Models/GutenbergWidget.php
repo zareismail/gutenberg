@@ -94,25 +94,22 @@ class GutenbergWidget extends Model
 
         return tap($widget::make($this->uriKey()), function($widget) {
             $widget->withMeta(collect($this->config)->toArray());
+            $widget->bootstrapUsing(function($request, $widget, $layout) { 
+                abort_unless(
+                    $this->template, 
+                    422, 
+                    "Not found template to display widget: {$this->name}"
+                );
 
-            if ($widget instanceof \Zareismail\Gutenberg\GutenbergWidget) {  
-                $widget->bootstrapUsing(function($request, $widget, $layout) { 
-                    abort_unless(
-                        $this->template, 
-                        422, 
-                        "Not found template to display widget: {$this->name}"
-                    );
-
-                    $this->template->plugins
-                         ->filter->isActive()
-                         ->flatMap->gutenbergPlugins()
-                         ->each->boot($request, $layout);
-                         
-                    $widget->displayUsing(function($attributes) { 
-                        return $this->template->gutenbergTemplate($attributes)->render(); 
-                    });
+                $this->template->plugins
+                     ->filter->isActive()
+                     ->flatMap->gutenbergPlugins()
+                     ->each->boot($request, $layout);
+                     
+                $widget->displayUsing(function($attributes) { 
+                    return $this->template->gutenbergTemplate($attributes)->render(); 
                 });
-            }
+            });
         });
     }
 }
