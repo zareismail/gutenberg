@@ -75,11 +75,18 @@ class Widget extends Resource
 
     public static function relatableGutenbergTemplates($request, $query)
     {
-        $widget = $request->findResourceOrFail();
+        $resource = $request->findResourceOrFail();
+        $canQuery = $resource->hasCypressWidget() && method_exists(
+            $resource->cypressWidget(), 'relatableTemplates'
+        );
 
-        return $widget->hasCypressWidget() && method_exists($widget, 'relatableTemplates')
-            ? $widget::relatableTemplates($request, $query)
-            : $query->handledBy(Blank::class); 
+        return $query->when($canQuery, function($query) use ($resource, $request) {
+            $widget = $resource->cypressWidget();
+
+            $widget::relatableTemplates($request, $query); 
+        }, function($query) {
+            $query->handledBy(Blank::class); 
+        });
     }
 
     /**
