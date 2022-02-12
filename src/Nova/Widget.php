@@ -3,10 +3,12 @@
 namespace Zareismail\Gutenberg\Nova;
 
 use Illuminate\Http\Request; 
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select; 
 use Laravel\Nova\Fields\Text; 
 use Zareismail\Gutenberg\Gutenberg;
+use Zareismail\Gutenberg\Templates\Blank;
 
 class Widget extends Resource
 {
@@ -44,8 +46,13 @@ class Widget extends Resource
                 ->displayUsingLabels()
                 ->readonly(),
 
-            Select::make(__('Widget Status'), 'marked_as')
-                ->options([
+            BelongsTo::make(__('Display Widget By'), 'template', Template::class)
+                ->required()
+                ->rules('required')
+                ->showCreateRelationButton()
+                ->withoutTrashed(),
+
+            Select::make(__('Widget Status'), 'marked_as')->options([
                     'active' => __('Active'),
                     'inactive' => __('Inactive'), 
                 ])
@@ -64,6 +71,15 @@ class Widget extends Resource
                 return $this->resource->fields($request);
             }),
         ];
+    }
+
+    public static function relatableGutenbergTemplates($request, $query)
+    {
+        $widget = $request->findResourceOrFail();
+
+        return $widget->hasCypressWidget() && method_exists($widget, 'relatableTemplates')
+            ? $widget::relatableTemplates($request, $query)
+            : $query->handledBy(Blank::class); 
     }
 
     /**

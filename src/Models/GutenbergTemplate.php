@@ -34,7 +34,19 @@ class GutenbergTemplate extends Model
      */
     public function scopeTemplates($query, $templates)
     {
-        return $query->whereIn($this->getQualifiedTemplateName(), (array) $templates);
+        return $query->handledBy((array) $templates);
+    }
+
+    /**
+     * Query where has the given template handlers.
+     * 
+     * @param  \Illuminate\Database\Elqoeunt\Builder $query     
+     * @param  string|array $templates 
+     * @return \Illuminate\Database\Elqoeunt\Builder            
+     */
+    public function scopeHandledBy($query, $handlers)
+    {
+        return $query->whereIn($this->getQualifiedTemplateName(), (array) $handlers);
     }
 
     /**

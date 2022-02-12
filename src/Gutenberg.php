@@ -33,7 +33,9 @@ class Gutenberg extends Cypress
      *
      * @var array
      */
-    public static $templates = [];
+    public static $templates = [
+        Templates\Blank::class,
+    ];
 
     /**
      * Register the given fragments.

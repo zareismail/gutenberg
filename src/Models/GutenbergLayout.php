@@ -71,7 +71,10 @@ class GutenbergLayout extends Model
      */
     public function resolveWidgets($request)
     {
-        return $this->widgets->filter->isAvailable()->map->cypressWidget()->all();
+        return $this->widgets->loadMissing('template.plugins')
+            ->filter->isAvailable()
+            ->map->cypressWidget()
+            ->all();
     } 
 
     /**
