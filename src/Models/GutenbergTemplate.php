@@ -108,4 +108,15 @@ class GutenbergTemplate extends Model
             $template->withHtml(strval($this->html)); 
         });
     }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new TemplateCollection($models);
+    }
 }
