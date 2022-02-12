@@ -52,7 +52,7 @@ class Widget extends Resource
                 ->showCreateRelationButton()
                 ->withoutTrashed(),
 
-            Select::make(__('Widget Status'), 'marked_as')->options([
+            Select::make(__('Widget Display Status'), 'marked_as')->options([
                     'active' => __('Active'),
                     'inactive' => __('Inactive'), 
                 ])
