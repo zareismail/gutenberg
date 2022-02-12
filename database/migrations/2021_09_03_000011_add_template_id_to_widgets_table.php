@@ -17,6 +17,7 @@ class AddTemplateIdToWidgetsTable extends Migration
         Schema::table('gutenberg_widgets', function (Blueprint $table) {
             $table
                 ->foreignId('template_id')
+                ->nullable()
                 ->after('config')
                 ->constrained('gutenberg_templates'); 
         });
