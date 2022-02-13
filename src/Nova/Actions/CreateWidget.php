@@ -55,7 +55,10 @@ class CreateWidget extends Action
         return [
             Select::make(__('Widget Handler'), 'widget')
                 ->options(Gutenberg::widgetCollection()->flip()->map(function($key, $widget) {
-                    return __(class_basename($widget));
+                    return [
+                        'label' => __(class_basename($widget)),
+                        'group' => $widget::group(),
+                    ];
                 }))
                 ->required()
                 ->rules('required'),

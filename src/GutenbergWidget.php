@@ -7,7 +7,14 @@ use Zareismail\Cypress\Http\Requests\CypressRequest;
 use Zareismail\Gutenberg\Models\GutenbergWidget as Model;
 
 class GutenbergWidget extends Widget
-{       
+{        
+    /**
+     * The logical group associated with the template.
+     *
+     * @var string
+     */
+    public static $group = 'Other';
+
     /**
      * The callback to be used to bootstrap widget.
      *
@@ -23,7 +30,7 @@ class GutenbergWidget extends Widget
     public $displayCallback;
 
     /**
-     * Bootstrap the resource for the given request.
+     * Bootstrap the widget for the given request.
      * 
      * @param  \Zareismail\Cypress\Http\Requests\CypressRequest $request 
      * @param  \Zareismail\Cypress\Layout $layout 
@@ -33,6 +40,16 @@ class GutenbergWidget extends Widget
     {   
         call_user_func($this->bootstrapCallback, $request, $this, $layout);
     } 
+
+    /**
+     * Get the logical group associated with the widget.
+     *
+     * @return string
+     */
+    public static function group()
+    {
+        return static::$group;
+    }
 
     /**
      * Define the callback that should be used to bootstrap the widget.
@@ -60,7 +77,7 @@ class GutenbergWidget extends Widget
     /**
      * Resolve the widget for display.
      *
-     * @param  mixed  $resource
+     * @param  mixed  $widget
      * @param  string|null  $attribute
      * @return void
      */
