@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select; 
+use Laravel\Nova\Fields\Slug; 
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Zareismail\Gutenberg\Gutenberg;
@@ -78,8 +79,10 @@ class Fragment extends Resource
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Fragment')), 
 
-            Text::make(__('Fragment Prefix'), 'prefix') 
+            Slug::make(__('Fragment Prefix'), 'prefix') 
+                ->from('name')
                 ->sortable()
+                ->required()
                 ->rules([
                     'required',
                     Rule::unique('gutenberg_fragments')

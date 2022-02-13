@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select; 
+use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -86,9 +87,12 @@ class Website extends Resource
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Website')),
 
-            Text::make(__('Website Directory'), 'directory') 
+            Slug::make(__('Website Directory'), 'directory') 
+                ->from('name')
                 ->sortable()
+                ->required()
                 ->rules([
+                    'required',
                     Rule::unique('gutenberg_websites')
                         ->ignore($this->id)
                         ->where(function($query) {
