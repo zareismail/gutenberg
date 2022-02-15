@@ -57,4 +57,15 @@ class GutenbergWebsite extends Model
 
         return url($uri);
     }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new Collections\WebsiteCollection($models);
+    }
 }

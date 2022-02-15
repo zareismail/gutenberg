@@ -57,4 +57,15 @@ class GutenbergFragment extends Model
 
         return $this->website->getUrl($uri);
     }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new Collections\FragmentCollection($models);
+    }
 }

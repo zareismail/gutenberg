@@ -74,7 +74,7 @@ class GutenbergWidget extends Model
     }
 
     /**
-     * Determine if the corresponding CypressWdiget exists.
+     * Determine if the corresponding CypressWidget exists.
      * 
      * @return boolean
      */
@@ -84,7 +84,7 @@ class GutenbergWidget extends Model
     }
 
     /**
-     * Get the corresponding CypressWdiget.
+     * Get the corresponding CypressWidget.
      * 
      * @return \Zareismail\Cypress\Widget
      */
@@ -111,5 +111,16 @@ class GutenbergWidget extends Model
                 });
             });
         });
+    }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new Collections\WidgetCollection($models);
     }
 }

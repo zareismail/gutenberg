@@ -117,6 +117,6 @@ class GutenbergTemplate extends Model
      */
     public function newCollection(array $models = [])
     {
-        return new TemplateCollection($models);
+        return new Collections\TemplateCollection($models);
     }
 }
