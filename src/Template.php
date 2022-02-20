@@ -118,6 +118,10 @@ abstract class Template extends Fluent implements Renderable
      */
     public function render()
     {        
+        if (app()->hasDebugModeEnabled()) {
+            return $this->runCompilers($this->getHtml(), $this->jsonSerialize());
+        }
+        
         return Cache::sear($this->cacheKey(), function() {
             return $this->runCompilers($this->getHtml(), $this->jsonSerialize());
         });
