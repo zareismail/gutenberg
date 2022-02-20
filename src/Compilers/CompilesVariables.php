@@ -20,8 +20,12 @@ class CompilesVariables implements Compiler
     	$pattern = "/\{\{\s*(?<variable>[0-9a-zA-Z-_.]+)(?:\s*or\s*(?<default>[^}]+))?\s*\}\}/"; 
 
         return preg_replace_callback($pattern, function($matches) use ($attributes) {   
+            $defaultValue = isset($matches['default']) 
+                ? data_get($attributes, trim($matches['default']))
+                : null;
+
             return strval(data_get(
-                $attributes, $matches['variable'], trim($matches['default'] ?? '')
+                $attributes, $matches['variable'], $defaultValue
             ));  
         }, $expression); 
     }
