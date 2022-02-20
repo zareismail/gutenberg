@@ -36,6 +36,7 @@ abstract class Template extends Fluent implements Renderable
     protected $compilers = [
         Compilers\CompilesEach::class,
         Compilers\CompilesConditionals::class,
+        Compilers\CompilesIs::class,
         Compilers\CompilesTranslations::class,
         Compilers\CompilesVariables::class,
     ];

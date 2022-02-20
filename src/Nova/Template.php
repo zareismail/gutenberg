@@ -132,6 +132,21 @@ class Template extends Resource
                     ]
                 ]),
 
+            Text::make(__('Is Condition')) 
+                ->required()
+                ->onlyOnForms()
+                ->help(__("Wrap your string in the below pattern to display when the compare is equal."))
+                ->fillUsing(function() {})
+                ->resolveUsing(function() {
+                    return '{% is firstVariable,secondVariable %} your string {% endis %}';
+                })
+                ->withMeta([
+                    'extraAttributes' => [
+                        'readonly' => true,
+                        'style' => 'direction: ltr !important',
+                    ]
+                ]),
+
             Text::make(__('Each Loop')) 
                 ->required()
                 ->onlyOnForms()
