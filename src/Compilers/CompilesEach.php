@@ -41,8 +41,16 @@ class CompilesEach implements Compiler
         return preg_replace_callback($pattern, function($matches) use ($attributes) {
             list($variableName, $valueName, $keyName) = $this->parseArguments($matches['arguments']);
             $items = data_get($attributes, $variableName, []);
-            $reduceCallback = function($html, $item, $key) use ($matches, $keyName, $valueName, $attributes) {
+            $index = 0;
+            $count = collect($items)->count(); 
+            $reduceCallback = function($html, $item, $key) use ($matches, $keyName, $valueName, $attributes, &$index, $count) {
                 $variables = array_merge($attributes, [
+                    'loop' => [
+                        'first' => $index === 0,
+                        'last' => $index === $count,
+                        'index' => $index++,
+                        'vount' => $count,
+                    ],
                     $keyName => $key,
                     $valueName => $item,
                 ]);
