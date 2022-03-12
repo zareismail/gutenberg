@@ -4,7 +4,7 @@ namespace Zareismail\Gutenberg\Models\Collections;
  
 use Illuminate\Database\Eloquent\Collection; 
 
-class WidgetCollection extends Collection
+class PluginCollection extends Collection
 {  
     /**
      * Bootstrap all plugins and dependencies.
