@@ -82,6 +82,6 @@ class GutenbergLayout extends Layout
             ? $this->resolveComponentLayout($request) 
             : $this->resolveFragmentLayout($request);
 
-        return $layout->plugins->filter->isActive()->map->gutenbergPlugins()->flatten()->all();
+        return $layout->plugins->gutenbergPlugins()->all();
     } 
 }
