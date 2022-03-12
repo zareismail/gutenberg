@@ -103,7 +103,8 @@ class GutenbergWidget extends Model
 
                 $this->template->plugins
                      ->filter->isActive()
-                     ->flatMap->gutenbergPlugins()
+                     ->map->gutenbergPlugins()
+                     ->flatten()
                      ->each->boot($request, $layout);
                      
                 $widget->displayUsing(function($attributes) { 
