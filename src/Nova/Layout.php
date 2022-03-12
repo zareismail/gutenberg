@@ -57,9 +57,6 @@ class Layout extends Resource
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Layout')), 
 
-            Boolean::make(__('Is RTL Layout?'), 'rtl')
-                ->default(false),
-
             BelongsToMany::make(__('Layout Plugins'), 'plugins', Plugin::class)
                 ->fields(function() {
                    return [
@@ -79,6 +76,9 @@ class Layout extends Resource
                             ->rules('required'),
                    ]; 
                 }),
+
+            Boolean::make(__('Is RTL Layout?'), 'rtl')
+                ->default(false),
         ];
     }
 
