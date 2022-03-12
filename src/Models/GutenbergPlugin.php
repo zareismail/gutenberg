@@ -45,4 +45,15 @@ class GutenbergPlugin extends Model
 
         return $this->plugins->toBase()->filter->isActive()->map->gutenbergPlugins()->merge($plugins);
     }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new Collections\PluginCollection($models);
+    }
 }

@@ -101,11 +101,7 @@ class GutenbergWidget extends Model
                     "Not found template to display widget: {$this->name}"
                 );
 
-                $this->template->plugins
-                     ->filter->isActive()
-                     ->map->gutenbergPlugins()
-                     ->flatten()
-                     ->each->boot($request, $layout);
+                $this->template->plugins->boot($request, $layout);
                      
                 $widget->displayUsing(function($attributes) { 
                     return $this->template->gutenbergTemplate($attributes)->render(); 
