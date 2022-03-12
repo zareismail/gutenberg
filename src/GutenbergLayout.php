@@ -95,7 +95,7 @@ class GutenbergLayout extends Layout
         $rtl = data_get($this->layout($this->getRequest()), 'rtl');
 
         return array_merge(parent::jsonSerialize(), [
-            'direction' => $rtl ? 'rtl' : 'ltr';
+            'direction' => $rtl ? 'rtl' : 'ltr',
         ]);
     }
 }
