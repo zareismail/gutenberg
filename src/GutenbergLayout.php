@@ -84,4 +84,18 @@ class GutenbergLayout extends Layout
 
         return $layout->plugins->gutenbergPlugins()->all();
     } 
+
+    /**
+     * Prepare the resource for JSON serialization.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $rtl = data_get($this->layout($this->getRequest()), 'rtl');
+
+        return array_merge(parent::jsonSerialize(), [
+            'direction' => $rtl ? 'rtl' : 'ltr';
+        ]);
+    }
 }

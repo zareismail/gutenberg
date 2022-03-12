@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ $direction }}">
 <head> 
   <!-- Required meta tags -->
   <meta charset="utf-8">

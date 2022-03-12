@@ -5,6 +5,7 @@ namespace Zareismail\Gutenberg\Nova;
 use Armincms\Fields\BelongsToMany;
 use Illuminate\Http\Request; 
 use Laravel\Nova\Fields\BelongsToMany as NovaBelongsToMany;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select; 
@@ -55,6 +56,9 @@ class Layout extends Resource
                 ->required()
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Layout')), 
+
+            Boolean::make(__('Is RTL Layout?'), 'rtl')
+                ->default(false),
 
             BelongsToMany::make(__('Layout Plugins'), 'plugins', Plugin::class)
                 ->fields(function() {
