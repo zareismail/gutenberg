@@ -164,7 +164,10 @@ class Template extends Resource
 
             Code::make(__('Template HTML'), 'html')
                 ->required()
-                ->rules('required'),
+                ->rules('required')
+                ->language('html')
+                ->stacked()
+                ->autoHeight(),
 
         ]);
     } 
