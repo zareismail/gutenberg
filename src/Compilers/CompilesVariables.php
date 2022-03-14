@@ -21,7 +21,7 @@ class CompilesVariables implements Compiler
 
         return preg_replace_callback($pattern, function($matches) use ($attributes) {   
             $defaultValue = isset($matches['default']) 
-                ? data_get($attributes, trim($matches['default']))
+                ? data_get($attributes, trim($matches['default']), trim($matches['default']))
                 : null;
 
             return strval(data_get(
