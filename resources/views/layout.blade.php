@@ -7,7 +7,7 @@
   <!-- Bootstrap CSS --> 
   {!! 
     // renders avaialble plugins that should renders in the header
-    $plugins->unique->url()->filterForHead()->toHtml() 
+    $plugins->filterForHead()->toHtml() 
   !!}  
 </head>
 <body 
@@ -20,7 +20,7 @@
   !!}  
   {!! 
     // renders avaialble plugins that should render in the footer
-    $plugins->unique->url()->filterForBody()->toHtml() 
+    $plugins->filterForBody()->toHtml() 
   !!} 
 </body>
 </html>
