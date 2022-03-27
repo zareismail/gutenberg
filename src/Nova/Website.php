@@ -56,9 +56,7 @@ class Website extends Resource
                 ->default('inactive'),
 
             Select::make(__('Website Handler'), 'component')
-                ->options(Gutenberg::componentCollection()->flip()->map(function($key, $component) {
-                    return __(class_basename($component));
-                }))
+                ->options(static::components($request))
                 ->displayUsingLabels()
                 ->required()
                 ->rules('required'),
@@ -154,7 +152,9 @@ class Website extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            Filters\Handler::make(static::components($request)->flip()->toArray())
+        ];
     }
 
     /**
@@ -177,5 +177,18 @@ class Website extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+    /**
+     * Get available components.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Support\Collection           
+     */
+    public function components(Request $request)
+    {
+        return Gutenberg::componentCollection()->flip()->map(function($key, $component) {
+            return __(class_basename($component));
+        });
     }
 }

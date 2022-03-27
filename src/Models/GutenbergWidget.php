@@ -9,6 +9,7 @@ class GutenbergWidget extends Model
 {
     use Activable; 
     use HasFactory;  
+    use HasHandler;  
 
     /**
      * The attributes that should be cast to native types.
@@ -38,6 +39,16 @@ class GutenbergWidget extends Model
     {
         return $this->belongsToMany(GutenbergLayout::class, 'gutenberg_layout_widget');
     } 
+
+    /**
+     * Get the table qualified template name.
+     *
+     * @return string
+     */
+    public function getQualifiedHandlerName()
+    {
+        return $this->qualifyColumn('widget');
+    }  
 
     /**
      * Get the `uriKey` of corresponding fragment.

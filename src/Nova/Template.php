@@ -42,11 +42,10 @@ class Template extends Resource
             ID::make(__('ID'), 'id')->sortable(), 
 
             Select::make(__('Template Handler'), 'template')
-                ->options(Gutenberg::templateCollection()->flip()->map(function($key, $template) {
-                    return class_exists($template) ? $template::label() : $template;
-                }))
+                ->options(static::handlers($request))
                 ->displayUsingLabels()
-                ->readonly(), 
+                ->readonly()
+                ->sortable(), 
 
             Text::make(__('Template Name'), 'name')
                 ->sortable()
@@ -202,7 +201,9 @@ class Template extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            Filters\Handler::make(static::handlers($request)->flip()->toArray())
+        ];
     }
 
     /**
@@ -229,5 +230,17 @@ class Template extends Resource
                 ->standalone()
                 ->onlyOnIndex(),
         ];
+    }
+
+    /**
+     * Get template handlers
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public static function handlers(Request $request)
+    {
+        return Gutenberg::templateCollection()->flip()->map(function($key, $template) {
+            return class_exists($template) ? $template::label() : $template;
+        });
     }
 }

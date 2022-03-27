@@ -10,6 +10,7 @@ class GutenbergFragment extends Model
     use Activable; 
     use Fallback; 
     use HasFactory; 
+    use HasHandler; 
     use InteractsWithFragments; 
     use Layoutable; 
     use Maintainable; 
@@ -32,6 +33,16 @@ class GutenbergFragment extends Model
     {
         return $this->belongsTo(GutenbergWebsite::class);
     }
+
+    /**
+     * Get the table qualified template name.
+     *
+     * @return string
+     */
+    public function getQualifiedHandlerName()
+    {
+        return $this->qualifyColumn('fragment');
+    }  
 
     /**
      * Get the `uriKey` of corresponding fragment.

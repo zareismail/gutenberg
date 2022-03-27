@@ -66,9 +66,7 @@ class Fragment extends Resource
                 ->default('inactive'),
 
             Select::make(__('Fragment Handler'), 'fragment')
-                ->options(Gutenberg::fragmentCollection()->flip()->map(function($key, $fragment) {
-                    return __(class_basename($fragment));
-                }))
+                ->options(static::fragments($request))
                 ->displayUsingLabels()
                 ->required()
                 ->rules('required'), 
@@ -127,7 +125,9 @@ class Fragment extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            Filters\Handler::make(static::fragments($request)->flip()->toArray())
+        ];
     }
 
     /**
@@ -150,5 +150,18 @@ class Fragment extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+    /**
+     * Get available fragments.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Support\Collection           
+     */
+    public function fragments(Request $request)
+    {
+        return Gutenberg::fragmentCollection()->flip()->map(function($key, $fragment) {
+            return __(class_basename($fragment));
+        });
     }
 }

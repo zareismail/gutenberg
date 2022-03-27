@@ -40,9 +40,7 @@ class Widget extends Resource
             ID::make(__('ID'), 'id')->sortable(), 
 
             Select::make(__('Widget Handler'), 'widget')
-                ->options(Gutenberg::widgetCollection()->flip()->map(function($key, $widget) {
-                    return __(class_basename($widget));
-                }))
+                ->options(static::widgets($request))
                 ->displayUsingLabels()
                 ->readonly(),
 
@@ -109,7 +107,7 @@ class Widget extends Resource
     public function cards(Request $request)
     {
         return [];
-    }
+    } 
 
     /**
      * Get the filters available for the resource.
@@ -119,7 +117,9 @@ class Widget extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            Filters\Handler::make(static::widgets($request)->flip()->toArray())
+        ];
     }
 
     /**
@@ -150,5 +150,18 @@ class Widget extends Resource
                          ! $request->viaRelationship();
                 }),
         ];
+    } 
+
+    /**
+     * Get available widgets.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Support\Collection           
+     */
+    public function widgets(Request $request)
+    {
+        return Gutenberg::widgetCollection()->flip()->map(function($key, $widget) {
+            return __(class_basename($widget));
+        });
     }
 }

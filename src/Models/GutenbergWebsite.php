@@ -10,6 +10,7 @@ class GutenbergWebsite extends Model
     use Activable; 
     use Fallback; 
     use HasFactory; 
+    use HasHandler; 
     use InteractsWithComponents;
     use Layoutable;
     use Maintainable; 
@@ -32,6 +33,16 @@ class GutenbergWebsite extends Model
     {
         return $this->hasMany(GutenbergFragment::class, 'website_id');
     } 
+
+    /**
+     * Get the table qualified template name.
+     *
+     * @return string
+     */
+    public function getQualifiedHandlerName()
+    {
+        return $this->qualifyColumn('component');
+    }  
 
     /**
      * Get the `uriKey` of corresponding component.

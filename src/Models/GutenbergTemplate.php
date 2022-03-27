@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class GutenbergTemplate extends Model
 {
     use HasFactory;  
+    use HasHandler;  
     use SoftDeletes; 
 
     /**
@@ -38,26 +39,14 @@ class GutenbergTemplate extends Model
     }
 
     /**
-     * Query where has the given template handlers.
-     * 
-     * @param  \Illuminate\Database\Elqoeunt\Builder $query     
-     * @param  string|array $templates 
-     * @return \Illuminate\Database\Elqoeunt\Builder            
-     */
-    public function scopeHandledBy($query, $handlers)
-    {
-        return $query->whereIn($this->getQualifiedTemplateName(), (array) $handlers);
-    }
-
-    /**
      * Get the table qualified template name.
      *
      * @return string
      */
-    public function getQualifiedTemplateName()
+    public function getQualifiedHandlerName()
     {
         return $this->qualifyColumn('template');
-    }
+    }  
 
     /**
      * Get the `uriKey` of corresponding fragment.
