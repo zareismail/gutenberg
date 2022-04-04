@@ -41,7 +41,7 @@ class CompilesVariables implements Compiler
     {
         $defaults = $this->parseDefaults($defaultKey);
         $defaultKey = $defaults->first(function($default) use ($attributes) {
-            return isset($attributes[$default]);
+            return data_get($attributes, $default);
         }, $defaults->pop());
 
         if ($defaultKey === 'null' || 
@@ -51,7 +51,7 @@ class CompilesVariables implements Compiler
             return null;
         }
 
-        return $attributes[$defaultKey] ?? $defaultKey;         
+        return data_get($attributes, $defaultKey, $defaultKey);         
     }
 
     /**
