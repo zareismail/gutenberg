@@ -38,6 +38,7 @@ abstract class Template extends Fluent implements Renderable
         Compilers\CompilesConditionals::class,
         Compilers\CompilesIn::class,
         Compilers\CompilesIs::class,
+        Compilers\CompilesNotIn::class,
         Compilers\CompilesTranslations::class,
         Compilers\CompilesVariables::class,
     ];
