@@ -27,7 +27,7 @@ class CompilesIn implements Compiler
                 explode(',', trim($matches['array']))
             );  
 
-            return collect($array)->contains($value);     
+            return collect($array)->contains($value) ? $matches['expression'] : '';     
         }, $expression); 
     }
 }
