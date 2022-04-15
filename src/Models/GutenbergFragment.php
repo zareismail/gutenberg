@@ -60,7 +60,7 @@ class GutenbergFragment extends Model
      * @param  string $uri 
      * @return string      
      */
-    public function getUrl(string $uri = '')
+    public function getUrl($uri = '')
     { 
         if (! $this->isFallback()) {
             $uri = $this->uriKey().'/'.trim($uri, '/');
