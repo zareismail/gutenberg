@@ -67,6 +67,9 @@ class Widget extends Resource
                 ->placeholder(__('New Gutenberg Widget')), 
 
             Number::make(__('Cache Time'), 'ttl')
+                ->displayUsing(function($value) {
+                    return $value.' '.__('(s)');
+                })
                 ->nullable()
                 ->min(0)
                 ->default(300)
