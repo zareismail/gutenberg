@@ -4,6 +4,7 @@ namespace Zareismail\Gutenberg\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model; 
+use Zareismail\Gutenberg\Cacheable;
 
 class GutenbergWidget extends Model
 {
@@ -87,6 +88,16 @@ class GutenbergWidget extends Model
         }
 
         return [];
+    }
+
+    /**
+     * Determin if widget is cachable.
+     * 
+     * @return boolean
+     */
+    public function isCacheable()
+    {
+        return $this->isAvailable() && $this->cypressWidget() instanceof Cacheable;
     }
 
     /**

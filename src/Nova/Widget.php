@@ -68,12 +68,17 @@ class Widget extends Resource
 
             Number::make(__('Cache Time'), 'ttl')
                 ->displayUsing(function($value) {
-                    return $value.' '.__('(s)');
+                    return $this->resource->isCacheable()
+                        ? $value.' '.__('(s)')
+                        : __('Not supported');
                 })
                 ->nullable()
                 ->min(0)
                 ->default(300)
-                ->help(__('Seconds of widget caching (*zero means ignoring cache).')),
+                ->help(__('Seconds of widget caching (*zero means ignoring cache).'))
+                ->hideWhenUpdating(function() {
+                    return ! $this->resource->isCacheable();
+                }), 
 
             $this->mergeWhen(! $request->isResourceIndexRequest(), function() use ($request) {
                 return $this->resource->fields($request);

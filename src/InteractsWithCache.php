@@ -26,6 +26,10 @@ trait InteractsWithCache
      */
     public function sear($callback)
     { 
+        if (! $this instanceof Cacheable || ! $this->cacheTime()) {
+            return call_user_func($callback);
+        }
+
         return \Cache::remember($this->cacheKey(), $this->cacheTime(), $callback);
     } 
 
