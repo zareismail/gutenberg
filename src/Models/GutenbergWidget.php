@@ -121,7 +121,7 @@ class GutenbergWidget extends Model
         return tap($widget::make($this->uriKey()), function($widget) {
             $widget->withMeta(collect($this->config)->toArray());
             $widget->withCacheKey($this->uriKey());
-            $widget->withCacheTime($this->ttl);
+            $widget->withCacheTime(intval($this->ttl));
             $widget->bootstrapUsing(function($request, $widget, $layout) { 
                 abort_unless(
                     $this->template, 
