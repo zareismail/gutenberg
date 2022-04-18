@@ -25,9 +25,7 @@ trait InteractsWithCache
      * @return void
      */
     public function sear($callback)
-    {
-        app()->setLocale(static::website()->locale);  
-
+    { 
         return \Cache::get($this->cacheKey(), $this->cacheTime(), $callback);
     } 
 
