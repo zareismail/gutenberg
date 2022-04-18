@@ -8,6 +8,8 @@ use Zareismail\Gutenberg\Models\GutenbergWidget as Model;
 
 class GutenbergWidget extends Widget
 {        
+    use InteractsWithCache;
+
     /**
      * The logical group associated with the template.
      *
@@ -71,7 +73,9 @@ class GutenbergWidget extends Widget
      */
     public function render()
     {  
-        return $this->resolveForDisplay($this->serializeForDisplay());
+        return $this->sear(function() {
+            return $this->resolveForDisplay($this->serializeForDisplay());
+        });
     }
 
     /**

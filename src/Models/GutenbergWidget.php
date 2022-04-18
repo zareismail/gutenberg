@@ -12,6 +12,21 @@ class GutenbergWidget extends Model
     use HasHandler;  
 
     /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::saved(function($model) {
+            $model->cypressWidget()->forget();
+        });
+        static::deleting(function($model) {
+            $model->cypressWidget()->forget();
+        });
+    }
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -51,14 +66,14 @@ class GutenbergWidget extends Model
     }  
 
     /**
-     * Get the `uriKey` of corresponding fragment.
+     * Get the `uriKey` of corresponding widget.
      * 
      * @return string
      */
     public function uriKey()
     {
         return md5(static::class.$this->getKey());
-    } 
+    }  
 
     /**
      * Get the CypressWidget fields.
@@ -105,6 +120,8 @@ class GutenbergWidget extends Model
 
         return tap($widget::make($this->uriKey()), function($widget) {
             $widget->withMeta(collect($this->config)->toArray());
+            $widget->withCacheKey($this->uriKey());
+            $widget->withCacheTime($this->ttl);
             $widget->bootstrapUsing(function($request, $widget, $layout) { 
                 abort_unless(
                     $this->template, 

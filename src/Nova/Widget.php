@@ -5,6 +5,7 @@ namespace Zareismail\Gutenberg\Nova;
 use Illuminate\Http\Request; 
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select; 
 use Laravel\Nova\Fields\Text; 
 use Zareismail\Gutenberg\Gutenberg;
@@ -64,6 +65,12 @@ class Widget extends Resource
                 ->required()
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Widget')), 
+
+            Number::make(__('Cache Time'), 'ttl')
+                ->nullable()
+                ->min(0)
+                ->default(300)
+                ->help(__('Seconds of widget caching (*zero means ignoring cache).')),
 
             $this->mergeWhen(! $request->isResourceIndexRequest(), function() use ($request) {
                 return $this->resource->fields($request);
