@@ -149,6 +149,8 @@ class Widget extends Resource
     public function actions(Request $request)
     {
         return [
+            Actions\ConfigCache::make()->onlyOnIndex(),
+
             Actions\CreateWidget::make()
                 ->standalone()
                 ->onlyOnIndex()
