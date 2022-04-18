@@ -26,7 +26,7 @@ trait InteractsWithCache
      */
     public function sear($callback)
     { 
-        return \Cache::get($this->cacheKey(), $this->cacheTime(), $callback);
+        return \Cache::remember($this->cacheKey(), $this->cacheTime(), $callback);
     } 
 
     /**
