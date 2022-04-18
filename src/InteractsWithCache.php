@@ -45,8 +45,8 @@ trait InteractsWithCache
      * @return string
      */
     public function cacheTime()
-    {
-        return $this->ttl;
+    { 
+        return \Laravel\Nova\Nova::check(request()) ? 0 : $this->ttl;
     }
 
     /**
