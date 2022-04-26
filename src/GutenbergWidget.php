@@ -97,7 +97,7 @@ class GutenbergWidget extends Widget
      */
     public function serializeForDisplay(): array
     {
-        return [];
+        return $this->jsonSerialize();
     }
 
     /**
