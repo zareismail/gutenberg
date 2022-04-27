@@ -179,7 +179,7 @@ class Template extends Resource
      */
     public static function authorizedToCreate(Request $request)
     {
-        return false;
+        return $request->isResourceIndexRequest();
     }
 
     /**
