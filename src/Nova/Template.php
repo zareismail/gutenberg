@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\Select; 
 use Laravel\Nova\Fields\Text; 
 use Laravel\Nova\Fields\Textarea; 
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Zareismail\Gutenberg\Gutenberg;
 
 class Template extends Resource
@@ -179,7 +180,7 @@ class Template extends Resource
      */
     public static function authorizedToCreate(Request $request)
     {
-        return $request->isResourceIndexRequest();
+        return ! app(NovaRequest::class)->isResourceIndexRequest();
     }
 
     /**
