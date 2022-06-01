@@ -12,14 +12,18 @@ class Gutenberg extends Cypress
      *
      * @var array
      */
-    public static $components = [];
+    public static $components = [
+        \Zareismail\Gutenberg\Cypress\Blank::class,
+    ];
 
     /**
      * The registered fragment names.
      *
      * @var array
      */
-    public static $fragments = [];
+    public static $fragments = [ 
+        \Zareismail\Gutenberg\Cypress\Fragments\Blank::class,
+    ];
 
     /**
      * The registered widget names.
