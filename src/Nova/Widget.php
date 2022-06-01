@@ -47,8 +47,7 @@ class Widget extends Resource
 
             BelongsTo::make(__('Display Widget By'), 'template', Template::class)
                 ->required()
-                ->rules('required')
-                ->showCreateRelationButton()
+                ->rules('required') 
                 ->withoutTrashed(),
 
             Select::make(__('Widget Display Status'), 'marked_as')->options([
