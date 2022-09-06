@@ -3,12 +3,12 @@
 namespace Zareismail\Gutenberg\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\DAtabase\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\DAtabase\Eloquent\Model;
 
 abstract class Policy
 {
-    use HandlesAuthorization; 
+    use HandlesAuthorization;
 
     /**
      * Determine whether the user can view the model.

@@ -14,9 +14,9 @@ class CreateGutenbergLayoutsTable extends Migration
     public function up()
     {
         Schema::create('gutenberg_layouts', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('name', 200); 
-            $table->string('marked_as', 20)->default('inactive');   
+            $table->id();
+            $table->string('name', 200);
+            $table->string('marked_as', 20)->default('inactive');
             $table->timestamps();
         });
     }

@@ -3,15 +3,11 @@
 namespace Zareismail\Gutenberg\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Number; 
-use Zareismail\Gutenberg\Gutenberg;
-use Zareismail\Gutenberg\Models\GutenbergWidget;
-use Zareismail\Gutenberg\Nova\Widget;
+use Laravel\Nova\Fields\Number;
 
 class ConfigCache extends Action
 {
@@ -25,14 +21,14 @@ class ConfigCache extends Action
      * @return mixed
      */
     public function handle(ActionFields $fields, Collection $models)
-    { 
-        $models->each(function($model) use ($fields) {
+    {
+        $models->each(function ($model) use ($fields) {
             $model->forceFill([
-                'ttl' => intval($fields->get('ttl'))
+                'ttl' => intval($fields->get('ttl')),
             ]);
 
             $model->save();
-        });  
+        });
     }
 
     /**
@@ -46,7 +42,7 @@ class ConfigCache extends Action
             Number::make(__('Cache Time'), 'ttl')
                 ->min(0)
                 ->required()
-                ->rules('required'), 
+                ->rules('required'),
         ];
     }
 }

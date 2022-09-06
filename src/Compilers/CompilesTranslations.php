@@ -1,12 +1,12 @@
-<?php 
+<?php
 
 namespace Zareismail\Gutenberg\Compilers;
 
 use Zareismail\Cypress\Makeable;
 
 class CompilesTranslations implements Compiler
-{ 
-	use Makeable;
+{
+    use Makeable;
 
     /**
      * Replace attributes in the given expression.
@@ -16,11 +16,11 @@ class CompilesTranslations implements Compiler
      * @return string
      */
     public function compile(string $expression, array $attributes = [])
-    { 
-    	$pattern = "/\{\{\s*_\((?<key>(?:\n*.)+)\)\s*\}\}/"; 
+    {
+        $pattern = "/\{\{\s*_\((?<key>(?:\n*.)+)\)\s*\}\}/";
 
-        return preg_replace_callback($pattern, function($matches) use ($attributes) { 
+        return preg_replace_callback($pattern, function ($matches) {
             return __($matches['key']);
-        }, $expression); 
+        }, $expression);
     }
 }

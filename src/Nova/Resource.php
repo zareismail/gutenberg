@@ -6,7 +6,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource as NovaResource;
 
 abstract class Resource extends NovaResource
-{ 
+{
     /**
      * The model the resource corresponds to.
      *
@@ -28,7 +28,7 @@ abstract class Resource extends NovaResource
      */
     public static function newModel()
     {
-        $model = config('gutenberg.models.'. static::class);
+        $model = config('gutenberg.models.'.static::class);
 
         return new $model;
     }

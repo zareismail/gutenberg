@@ -4,15 +4,14 @@ namespace Zareismail\Gutenberg\Nova;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphToMany;
-use Laravel\Nova\Fields\Select; 
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Zareismail\Gutenberg\Gutenberg;
 
 class Website extends Resource
@@ -67,7 +66,7 @@ class Website extends Resource
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->default(function()  {
+                ->default(function () {
                     $locales = array_keys((array) config('gutenberg.locales'));
 
                     return in_array(app()->getLocale(), $locales) ? app()->getLocale() : current($locales);
@@ -85,7 +84,7 @@ class Website extends Resource
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Website')),
 
-            Slug::make(__('Website Directory'), 'directory') 
+            Slug::make(__('Website Directory'), 'directory')
                 ->from('name')
                 ->sortable()
                 ->required()
@@ -93,10 +92,10 @@ class Website extends Resource
                     'required',
                     Rule::unique('gutenberg_websites')
                         ->ignore($this->id)
-                        ->where(function($query) {
+                        ->where(function ($query) {
                             return $query->where('locale', '!=', $this->locale);
                         }),
-                ]), 
+                ]),
 
             Boolean::make(__('Fallback Website'), 'fallback')
                 ->help(__('Determine if you need to ignore prefixing website paths'))
@@ -104,7 +103,7 @@ class Website extends Resource
                 ->rules([
                     Rule::unique('gutenberg_websites')
                         ->ignore($this->id)
-                        ->where(function($query) {
+                        ->where(function ($query) {
                             return $query->where($this->getQualifiedFallback(), 1);
                         }),
                 ]),
@@ -123,12 +122,12 @@ class Website extends Resource
 
     /**
      * Get the available locales.
-     * 
+     *
      * @return array
      */
     public static function locales()
     {
-        return collect((array) config('gutenberg.locales'))->map(function($language) {
+        return collect((array) config('gutenberg.locales'))->map(function ($language) {
             return __($language);
         })->toArray();
     }
@@ -153,7 +152,7 @@ class Website extends Resource
     public function filters(Request $request)
     {
         return [
-            Filters\Handler::make(static::components($request)->flip()->toArray())
+            Filters\Handler::make(static::components($request)->flip()->toArray()),
         ];
     }
 
@@ -181,13 +180,13 @@ class Website extends Resource
 
     /**
      * Get available components.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Support\Collection           
+     * @return \Illuminate\Support\Collection
      */
     public function components(Request $request)
     {
-        return Gutenberg::componentCollection()->flip()->map(function($key, $component) {
+        return Gutenberg::componentCollection()->flip()->map(function ($key, $component) {
             return __(class_basename($component));
         });
     }

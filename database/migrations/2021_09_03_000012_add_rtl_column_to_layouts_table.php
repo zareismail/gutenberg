@@ -12,10 +12,10 @@ class AddRtlColumnToLayoutsTable extends Migration
      * @return void
      */
     public function up()
-    { 
+    {
         Schema::table('gutenberg_layouts', function (Blueprint $table) {
-            $table->boolean('rtl')->default(false); 
-        }); 
+            $table->boolean('rtl')->default(false);
+        });
     }
 
     /**
@@ -24,9 +24,9 @@ class AddRtlColumnToLayoutsTable extends Migration
      * @return void
      */
     public function down()
-    { 
-        Schema::table('gutenberg_layouts', function (Blueprint $table) { 
+    {
+        Schema::table('gutenberg_layouts', function (Blueprint $table) {
             $table->dropColumn('rtl');
-        }); 
+        });
     }
 }

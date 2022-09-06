@@ -3,11 +3,10 @@
 namespace Zareismail\Gutenberg;
 
 use Illuminate\Http\Request;
-use Zareismail\Cypress\Layout;  
-use Zareismail\Gutenberg\Gutenberg;
+use Zareismail\Cypress\Layout;
 
 class GutenbergLayout extends Layout
-{        
+{
     /**
      * Get the viewName name for the layout.
      *
@@ -16,7 +15,7 @@ class GutenbergLayout extends Layout
     public function viewName(): string
     {
         return 'gutenberg::layout';
-    }  
+    }
 
     /**
      * Get the widgets available on the entity.
@@ -33,13 +32,13 @@ class GutenbergLayout extends Layout
 
     /**
      * Get the layout for the given request.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Datbase\Eloquent\Model
      */
     public function layout(Request $request)
     {
-        return $request->isFragmentRequest() 
+        return $request->isFragmentRequest()
                     ? $this->resolveFragmentLayout($request)
                     : $this->resolveComponentLayout($request);
     }
@@ -52,10 +51,10 @@ class GutenbergLayout extends Layout
      */
     public function resolveFragmentLayout(Request $request)
     {
-        return tap($request->resolveFragment()->fragment()->layout($request), function($layout) {
+        return tap($request->resolveFragment()->fragment()->layout($request), function ($layout) {
             abort_if(is_null($layout), 422, 'Not found any layout to display fragment');
-        }); 
-    } 
+        });
+    }
 
     /**
      * Get the layout from website.
@@ -65,9 +64,9 @@ class GutenbergLayout extends Layout
      */
     public function resolveComponentLayout(Request $request)
     {
-        return tap($request->resolveComponent()->website()->layout($request), function($layout) {
+        return tap($request->resolveComponent()->website()->layout($request), function ($layout) {
             abort_if(is_null($layout), 422, 'Not found any layout to display component');
-        });   
+        });
     }
 
     /**
@@ -78,12 +77,12 @@ class GutenbergLayout extends Layout
      */
     public function plugins(Request $request)
     {
-        $layout = $request->isComponentRequest() 
-            ? $this->resolveComponentLayout($request) 
+        $layout = $request->isComponentRequest()
+            ? $this->resolveComponentLayout($request)
             : $this->resolveFragmentLayout($request);
 
         return $layout->plugins->gutenbergPlugins()->all();
-    } 
+    }
 
     /**
      * Prepare the resource for JSON serialization.

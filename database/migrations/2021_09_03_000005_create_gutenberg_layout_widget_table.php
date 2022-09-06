@@ -14,9 +14,9 @@ class CreateGutenbergLayoutWidgetTable extends Migration
     public function up()
     {
         Schema::create('gutenberg_layout_widget', function (Blueprint $table) {
-            $table->id(); 
-            $table->foreignId('gutenberg_layout_id')->constrained('gutenberg_layouts');  
-            $table->foreignId('gutenberg_widget_id')->constrained('gutenberg_widgets');  
+            $table->id();
+            $table->foreignId('gutenberg_layout_id')->constrained('gutenberg_layouts');
+            $table->foreignId('gutenberg_widget_id')->constrained('gutenberg_widgets');
             $table->integer('order')->default(0);
             $table->json('config')->nullable();
         });

@@ -2,9 +2,8 @@
 
 namespace Zareismail\Gutenberg;
 
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as LaravelServiceProvider;   
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as LaravelServiceProvider;
 use Laravel\Nova\Nova;
-use Laravel\Nova\Observable;
 use Zareismail\Cypress\Cypress;
 
 class ServiceProvider extends LaravelServiceProvider
@@ -16,11 +15,11 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected $policies = [
         Models\GutenbergFragment::class => Policies\Fragment::class,
-        Models\GutenbergLayout::class   => Policies\Layout::class,
-        Models\GutenbergPlugin::class   => Policies\Plugin::class,
+        Models\GutenbergLayout::class => Policies\Layout::class,
+        Models\GutenbergPlugin::class => Policies\Plugin::class,
         Models\GutenbergTemplate::class => Policies\Template::class,
-        Models\GutenbergWebsite::class  => Policies\Website::class,
-        Models\GutenbergWidget::class   => Policies\Widget::class,
+        Models\GutenbergWebsite::class => Policies\Website::class,
+        Models\GutenbergWidget::class => Policies\Widget::class,
     ];
 
     /**
@@ -32,7 +31,7 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'gutenberg');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->mergeConfigFrom(__DIR__.'/../config/gutenberg.php', 'gutenberg'); 
+        $this->mergeConfigFrom(__DIR__.'/../config/gutenberg.php', 'gutenberg');
         $this->registerPolicies();
 
         Nova::serving(function () {
@@ -40,18 +39,18 @@ class ServiceProvider extends LaravelServiceProvider
         });
 
         Cypress::discover(app_path('Gutenberg'));
-    }   
+    }
 
     /**
      * Register any Nova serives.
-     *  
+     *
      * @return void
      */
     protected function servingNova()
     {
         Nova::resources((array) config('gutenberg.resources'));
-        
-        collect(config('gutenberg.models'))->each(function($model, $resource) {
+
+        collect(config('gutenberg.models'))->each(function ($model, $resource) {
             Nova::$resourcesByModel[$model] = $resource;
         });
     }

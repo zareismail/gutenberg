@@ -14,11 +14,11 @@ class CreateGutenbergPluginsTable extends Migration
     public function up()
     {
         Schema::create('gutenberg_plugins', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('name', 200); 
-            $table->string('note')->nullable(); 
-            $table->string('marked_as', 20)->default('inactive');  
-            $table->json('assets')->nullable();    
+            $table->id();
+            $table->string('name', 200);
+            $table->string('note')->nullable();
+            $table->string('marked_as', 20)->default('inactive');
+            $table->json('assets')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

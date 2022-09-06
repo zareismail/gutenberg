@@ -12,10 +12,10 @@ class AddCacheTimeToWidgetsTable extends Migration
      * @return void
      */
     public function up()
-    { 
+    {
         Schema::table('gutenberg_widgets', function (Blueprint $table) {
-            $table->unsignedInteger('ttl')->default(300); 
-        }); 
+            $table->unsignedInteger('ttl')->default(300);
+        });
     }
 
     /**
@@ -24,9 +24,9 @@ class AddCacheTimeToWidgetsTable extends Migration
      * @return void
      */
     public function down()
-    { 
-        Schema::table('gutenberg_widgets', function (Blueprint $table) { 
+    {
+        Schema::table('gutenberg_widgets', function (Blueprint $table) {
             $table->dropColumn('ttl');
-        }); 
+        });
     }
 }

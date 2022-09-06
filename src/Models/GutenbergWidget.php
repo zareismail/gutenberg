@@ -3,14 +3,14 @@
 namespace Zareismail\Gutenberg\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model; 
+use Illuminate\Database\Eloquent\Model;
 use Zareismail\Gutenberg\Cacheable;
 
 class GutenbergWidget extends Model
 {
-    use Activable; 
-    use HasFactory;  
-    use HasHandler;  
+    use Activable;
+    use HasFactory;
+    use HasHandler;
 
     /**
      * Perform any actions required after the model boots.
@@ -19,10 +19,10 @@ class GutenbergWidget extends Model
      */
     protected static function booted()
     {
-        static::saved(function($model) {
+        static::saved(function ($model) {
             $model->cypressWidget()->forget();
         });
-        static::deleting(function($model) {
+        static::deleting(function ($model) {
             $model->cypressWidget()->forget();
         });
     }
@@ -32,29 +32,29 @@ class GutenbergWidget extends Model
      *
      * @var array
      */
-    protected $casts = [ 
+    protected $casts = [
         'config' => 'collection',
     ];
 
     /**
      * Query the realted GutenbergTemplate.
-     * 
+     *
      * @return [type] [description]
      */
     public function template()
     {
         return $this->belongsTo(GutenbergTemplate::class);
-    } 
+    }
 
     /**
      * Query the realted GutenbergWebsite.
-     * 
+     *
      * @return [type] [description]
      */
     public function layouts()
     {
         return $this->belongsToMany(GutenbergLayout::class, 'gutenberg_layout_widget');
-    } 
+    }
 
     /**
      * Get the table qualified template name.
@@ -64,21 +64,21 @@ class GutenbergWidget extends Model
     public function getQualifiedHandlerName()
     {
         return $this->qualifyColumn('widget');
-    }  
+    }
 
     /**
      * Get the `uriKey` of corresponding widget.
-     * 
+     *
      * @return string
      */
     public function uriKey()
     {
         return md5(static::class.$this->getKey());
-    }  
+    }
 
     /**
      * Get the CypressWidget fields.
-     * 
+     *
      * @return array
      */
     public function fields($request)
@@ -92,8 +92,8 @@ class GutenbergWidget extends Model
 
     /**
      * Determin if widget is cachable.
-     * 
-     * @return boolean
+     *
+     * @return bool
      */
     public function isCacheable()
     {
@@ -102,8 +102,8 @@ class GutenbergWidget extends Model
 
     /**
      * Determine if the module available for render.
-     * 
-     * @return boolean
+     *
+     * @return bool
      */
     public function isAvailable()
     {
@@ -112,8 +112,8 @@ class GutenbergWidget extends Model
 
     /**
      * Determine if the corresponding CypressWidget exists.
-     * 
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasCypressWidget()
     {
@@ -122,28 +122,28 @@ class GutenbergWidget extends Model
 
     /**
      * Get the corresponding CypressWidget.
-     * 
+     *
      * @return \Zareismail\Cypress\Widget
      */
     public function cypressWidget()
     {
         $widget = $this->widget;
 
-        return tap($widget::make($this->uriKey()), function($widget) {
+        return tap($widget::make($this->uriKey()), function ($widget) {
             $widget->withMeta(collect($this->config)->toArray());
             $widget->withCacheKey($this->uriKey());
             $widget->withCacheTime(intval($this->ttl));
-            $widget->bootstrapUsing(function($request, $widget, $layout) { 
+            $widget->bootstrapUsing(function ($request, $widget, $layout) {
                 abort_unless(
-                    $this->template, 
-                    422, 
+                    $this->template,
+                    422,
                     "Not found template to display widget: {$this->name}"
                 );
 
                 $this->template->plugins->boot($request, $layout);
-                     
-                $widget->displayUsing(function($attributes) { 
-                    return $this->template->gutenbergTemplate($attributes)->render(); 
+
+                $widget->displayUsing(function ($attributes) {
+                    return $this->template->gutenbergTemplate($attributes)->render();
                 });
             });
         });

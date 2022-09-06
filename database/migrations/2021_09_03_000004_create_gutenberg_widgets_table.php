@@ -14,11 +14,11 @@ class CreateGutenbergWidgetsTable extends Migration
     public function up()
     {
         Schema::create('gutenberg_widgets', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('name', 200); 
+            $table->id();
+            $table->string('name', 200);
             $table->string('widget');
-            $table->string('marked_as', 20)->default('inactive');    
-            $table->json('config')->nullable(); 
+            $table->string('marked_as', 20)->default('inactive');
+            $table->json('config')->nullable();
             $table->timestamps();
         });
     }

@@ -3,13 +3,12 @@
 namespace Zareismail\Gutenberg\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Zareismail\Gutenberg\Gutenberg;
 use Zareismail\Gutenberg\Models\GutenbergTemplate;
 use Zareismail\Gutenberg\Nova\Template;
@@ -27,19 +26,19 @@ class CreateTemplate extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $template = tap(new GutenbergTemplate, function($template) use ($fields) {
+        $template = tap(new GutenbergTemplate, function ($template) use ($fields) {
             $template->forceFill([
                 'name' => $fields->get('name'),
                 'template' => $fields->get('template'),
             ])->save();
-        }); 
+        });
 
         return [
             'push' => [
                 'name' => 'edit',
                 'params' => [
-                    'resourceName'  => Template::uriKey(),
-                    'resourceId'    => $template->getKey(),
+                    'resourceName' => Template::uriKey(),
+                    'resourceId' => $template->getKey(),
                 ],
             ],
         ];
@@ -54,7 +53,7 @@ class CreateTemplate extends Action
     {
         return [
             Select::make(__('Template Handler'), 'template')
-                ->options(Gutenberg::templateCollection()->flip()->map(function($key, $template) {
+                ->options(Gutenberg::templateCollection()->flip()->map(function ($key, $template) {
                     return [
                         'label' => $template::label(),
                         'group' => $template::group(),
@@ -67,5 +66,5 @@ class CreateTemplate extends Action
                 ->required()
                 ->rules('required'),
         ];
-    } 
+    }
 }

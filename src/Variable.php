@@ -1,23 +1,23 @@
 <?php
 
-namespace Zareismail\Gutenberg; 
- 
+namespace Zareismail\Gutenberg;
+
 use Zareismail\Cypress\Makeable;
 
-class Variable 
-{      
+class Variable
+{
     use Makeable;
 
     /**
      * The variabel attribute name.
-     * 
+     *
      * @var string
      */
     public $attribute;
 
     /**
      * The variabel attribute help.
-     * 
+     *
      * @var string
      */
     public $help;
@@ -46,5 +46,5 @@ class Variable
     public function help()
     {
         return $this->help;
-    } 
+    }
 }

@@ -2,17 +2,17 @@
 
 namespace Zareismail\Gutenberg\Console;
 
-use Zareismail\Cypress\Console\FragmentCommand as Command;
 use Symfony\Component\Console\Input\InputOption;
+use Zareismail\Cypress\Console\FragmentCommand as Command;
 
 class FragmentCommand extends Command
-{ 
+{
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'gutenberg:fragment'; 
+    protected $name = 'gutenberg:fragment';
 
     /**
      * Build the class with the given name.
@@ -22,7 +22,7 @@ class FragmentCommand extends Command
      */
     protected function buildClass($name)
     {
-        $fragment = $this->option('fragment'); 
+        $fragment = $this->option('fragment');
 
         return str_replace('{{ fragment }}', $fragment, parent::buildClass($name));
     }
@@ -57,7 +57,7 @@ class FragmentCommand extends Command
      * @return array
      */
     protected function getOptions()
-    { 
+    {
         return array_merge(parent::getOptions(), [
             ['fragment', 'c', InputOption::VALUE_REQUIRED, 'The fragment class being extended.'],
         ]);

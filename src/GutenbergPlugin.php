@@ -2,23 +2,22 @@
 
 namespace Zareismail\Gutenberg;
 
-use Zareismail\Cypress\Plugin;  
 use Zareismail\Cypress\Http\Requests\CypressRequest;
-use Zareismail\Gutenberg\Models\GutenbergPlugin as Model;
+use Zareismail\Cypress\Plugin;
 
 class GutenbergPlugin extends Plugin
-{     
+{
     /**
      * The plugin asset.
-     * 
+     *
      * @var \Zareismail\Gutenberg\Models\GutenbergPlugin
      */
     protected $asset;
 
     /**
      * Initiate a new plugin instance.
-     * 
-     * @param \Zareismail\Gutenberg\Models\GutenbergPlugin $plugin
+     *
+     * @param  \Zareismail\Gutenberg\Models\GutenbergPlugin  $plugin
      */
     public function __construct(array $asset)
     {
@@ -27,22 +26,22 @@ class GutenbergPlugin extends Plugin
 
     /**
      * Bootstrap the resource for the given request.
-     * 
-     * @param  \Zareismail\Cypress\Http\Requests\CypressRequest $request 
-     * @param  \Zareismail\Cypress\Layout $layout 
-     * @return void                  
+     *
+     * @param  \Zareismail\Cypress\Http\Requests\CypressRequest  $request
+     * @param  \Zareismail\Cypress\Layout  $layout
+     * @return void
      */
     public function boot(CypressRequest $request, $layout)
-    {  
+    {
         $layout->appendPlugins([
-            $this
+            $this,
         ]);
     }
 
     /**
      * Determine if the plugin should be loaded as html meta.
-     *  
-     * @return bool              
+     *
+     * @return bool
      */
     public function asMetadata(): bool
     {
@@ -51,7 +50,7 @@ class GutenbergPlugin extends Plugin
 
     /**
      * get the plugin asset url.
-     * 
+     *
      * @return string
      */
     public function url()
@@ -65,9 +64,9 @@ class GutenbergPlugin extends Plugin
      * @return string
      */
     public function render()
-    { 
-        return $this->asset['type'] == 'js' 
-            ? '<script src="' .$this->url(). '"></script>'
+    {
+        return $this->asset['type'] == 'js'
+            ? '<script src="'.$this->url().'"></script>'
             : '<link rel="stylesheet" type="text/css" href="'.$this->url().'">';
     }
 }

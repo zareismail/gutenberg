@@ -1,12 +1,12 @@
 <?php
 
-namespace Zareismail\Gutenberg; 
+namespace Zareismail\Gutenberg;
 
 use Illuminate\Support\Collection;
 use Zareismail\Cypress\Cypress;
 
 class Gutenberg extends Cypress
-{   
+{
     /**
      * The registered component names.
      *
@@ -21,7 +21,7 @@ class Gutenberg extends Cypress
      *
      * @var array
      */
-    public static $fragments = [ 
+    public static $fragments = [
         \Zareismail\Gutenberg\Cypress\Fragments\Blank::class,
     ];
 
@@ -54,7 +54,7 @@ class Gutenberg extends Cypress
         );
 
         return new static;
-    } 
+    }
 
     /**
      * Return the base collection of Cypress fragments.
@@ -64,7 +64,7 @@ class Gutenberg extends Cypress
     public static function fragmentCollection()
     {
         return Collection::make(static::$fragments);
-    } 
+    }
 
     /**
      * Register the given widgets.
@@ -79,7 +79,7 @@ class Gutenberg extends Cypress
         );
 
         return new static;
-    } 
+    }
 
     /**
      * Return the base collection of Cypress widgets.
@@ -89,7 +89,7 @@ class Gutenberg extends Cypress
     public static function widgetCollection()
     {
         return Collection::make(static::$widgets);
-    } 
+    }
 
     /**
      * Register the given templates.
@@ -104,7 +104,7 @@ class Gutenberg extends Cypress
         );
 
         return new static;
-    } 
+    }
 
     /**
      * Return the base collection of Cypress templates.
@@ -114,16 +114,16 @@ class Gutenberg extends Cypress
     public static function templateCollection()
     {
         return Collection::make(static::$templates);
-    } 
+    }
 
     /**
      * Get the cache websites.
-     * 
+     *
      * @return \Illuminate\Support\Collection
      */
     public static function cachedWebsites()
     {
-        return once(function() {
+        return once(function () {
             $resource = config('gutenberg.resources.website');
 
             return $resource::newModel()->with('fragments')->get();
@@ -132,12 +132,12 @@ class Gutenberg extends Cypress
 
     /**
      * Get the cache fragments.
-     * 
+     *
      * @return \Illuminate\Support\Collection
      */
     public static function cachedFragments()
     {
-        return once(function() {
+        return once(function () {
             $resource = config('gutenberg.resources.fragment');
 
             return $resource::newModel()->with('website')->get();
@@ -146,12 +146,12 @@ class Gutenberg extends Cypress
 
     /**
      * Get the cache widgets.
-     * 
+     *
      * @return \Illuminate\Support\Collection
      */
     public static function cachedWidgets()
     {
-        return once(function() {
+        return once(function () {
             $resource = config('gutenberg.resources.widget');
 
             return $resource::newModel()->get();
@@ -160,12 +160,12 @@ class Gutenberg extends Cypress
 
     /**
      * Get the cache templates.
-     * 
+     *
      * @return \Illuminate\Support\Collection
      */
     public static function cachedTemplates()
     {
-        return once(function() {
+        return once(function () {
             $resource = config('gutenberg.resources.template');
 
             return $resource::newModel()->with('plugins')->get();

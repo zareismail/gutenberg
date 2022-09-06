@@ -1,12 +1,12 @@
-<?php 
+<?php
 
 namespace Zareismail\Gutenberg\Compilers;
 
 use Zareismail\Cypress\Makeable;
 
 class CompilesConditionals implements Compiler
-{ 
-	use Makeable;
+{
+    use Makeable;
 
     /**
      * Replace attributes in the given expression.
@@ -18,7 +18,7 @@ class CompilesConditionals implements Compiler
     public function compile(string $expression, array $attributes = [])
     {
         return $this->compileIf($this->compileUnless($expression, $attributes), $attributes);
-    } 
+    }
 
     /**
      * Replace attributes in the if statements.
@@ -28,18 +28,18 @@ class CompilesConditionals implements Compiler
      * @return string
      */
     protected function compileIf(string $expression, array $attributes = [])
-    { 
+    {
         $pattern = $this->getPattern('if');
 
-        $expression = preg_replace_callback($pattern, function($matches) use ($attributes) {
+        $expression = preg_replace_callback($pattern, function ($matches) use ($attributes) {
             if (! $this->parseCondition($matches['condition'], $attributes)) {
                 return '';
             }
 
             return $matches['expression'];
-        }, $expression);  
+        }, $expression);
 
-        return preg_match($pattern, $expression) 
+        return preg_match($pattern, $expression)
             ? $this->compileIf($expression, $attributes)
             : $expression;
     }
@@ -52,27 +52,27 @@ class CompilesConditionals implements Compiler
      * @return string
      */
     protected function compileUnless(string $expression, array $attributes = [])
-    { 
+    {
         $pattern = $this->getPattern('unless');
 
-        $expression = preg_replace_callback($pattern, function($matches) use ($attributes) { 
+        $expression = preg_replace_callback($pattern, function ($matches) use ($attributes) {
             if ($this->parseCondition($matches['condition'], $attributes)) {
                 return '';
             }
 
             return $matches['expression'];
-        }, $expression);  
+        }, $expression);
 
-        return preg_match($pattern, $expression) 
+        return preg_match($pattern, $expression)
             ? $this->compileUnless($expression, $attributes)
             : $expression;
     }
 
     /**
      * Get pattern for given condition.
-     * 
-     * @param  string $condition 
-     * @return string            
+     *
+     * @param  string  $condition
+     * @return string
      */
     protected function getPattern(string $condition)
     {
@@ -81,10 +81,10 @@ class CompilesConditionals implements Compiler
 
     /**
      * Parse the given operand.
-     * 
-     * @param  string $condition 
-     * @param  array $attributes
-     * @return mixed            
+     *
+     * @param  string  $condition
+     * @param  array  $attributes
+     * @return mixed
      */
     protected function parseCondition(string $condition, array $attributes = [])
     {

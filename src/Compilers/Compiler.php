@@ -1,9 +1,9 @@
-<?php 
+<?php
 
 namespace Zareismail\Gutenberg\Compilers;
 
 interface Compiler
-{ 
+{
     /**
      * Replace attributes in the given expression.
      *

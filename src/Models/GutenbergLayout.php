@@ -3,24 +3,24 @@
 namespace Zareismail\Gutenberg\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model; 
+use Illuminate\Database\Eloquent\Model;
 
 class GutenbergLayout extends Model
 {
-    use Activable; 
-    use HasFactory;  
+    use Activable;
+    use HasFactory;
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [ 
+    protected $casts = [
     ];
 
     /**
      * Query the realted GutenbergWebsite.
-     * 
+     *
      * @return [type] [description]
      */
     public function websites()
@@ -30,7 +30,7 @@ class GutenbergLayout extends Model
 
     /**
      * Query the realted GutenbergFragment.
-     * 
+     *
      * @return [type] [description]
      */
     public function fragments()
@@ -40,7 +40,7 @@ class GutenbergLayout extends Model
 
     /**
      * Query the realted GutenbergPlugin.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Rleations\BelongsToMany
      */
     public function plugins()
@@ -53,7 +53,7 @@ class GutenbergLayout extends Model
 
     /**
      * Query the realted GutenbergFragment.
-     * 
+     *
      * @return [type] [description]
      */
     public function widgets()
@@ -65,8 +65,8 @@ class GutenbergLayout extends Model
 
     /**
      * Get the availabel widgets.
-     * 
-     * @param  \Illuminate\Http\Request $request 
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function resolveWidgets($request)
@@ -75,11 +75,11 @@ class GutenbergLayout extends Model
             ->filter->isAvailable()
             ->map->cypressWidget()
             ->all();
-    } 
+    }
 
     /**
      * Get the `uriKey` of corresponding fragment.
-     * 
+     *
      * @return string
      */
     public function uriKey()

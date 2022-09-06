@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class GutenbergWebsite extends Model
 {
-    use Activable; 
-    use Fallback; 
-    use HasFactory; 
-    use HasHandler; 
+    use Activable;
+    use Fallback;
+    use HasFactory;
+    use HasHandler;
     use InteractsWithComponents;
     use Layoutable;
-    use Maintainable; 
+    use Maintainable;
 
     /**
      * The attributes that should be cast to native types.
@@ -22,17 +22,17 @@ class GutenbergWebsite extends Model
      */
     protected $casts = [
         'config' => 'collection',
-    ]; 
+    ];
 
     /**
      * Query the realted GutenbergFragment.
-     * 
+     *
      * @return [type] [description]
      */
     public function fragments()
     {
         return $this->hasMany(GutenbergFragment::class, 'website_id');
-    } 
+    }
 
     /**
      * Get the table qualified template name.
@@ -42,11 +42,11 @@ class GutenbergWebsite extends Model
     public function getQualifiedHandlerName()
     {
         return $this->qualifyColumn('component');
-    }  
+    }
 
     /**
      * Get the `uriKey` of corresponding component.
-     * 
+     *
      * @return string
      */
     public function uriKey()
@@ -56,9 +56,9 @@ class GutenbergWebsite extends Model
 
     /**
      * Get the url for given uri.
-     * 
-     * @param  string $uri 
-     * @return string      
+     *
+     * @param  string  $uri
+     * @return string
      */
     public function getUrl($uri = '')
     {

@@ -3,14 +3,13 @@
 namespace Zareismail\Gutenberg\Nova;
 
 use Armincms\Fields\BelongsToMany;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany as NovaBelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select; 
-use Laravel\Nova\Fields\Text; 
-use Zareismail\Gutenberg\Gutenberg;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 
 class Layout extends Resource
 {
@@ -19,7 +18,7 @@ class Layout extends Resource
      *
      * @var string
      */
-    public static $title = 'name'; 
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -39,42 +38,42 @@ class Layout extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(), 
+            ID::make(__('ID'), 'id')->sortable(),
 
             Select::make(__('Layout Status'), 'marked_as')
                 ->options([
                     'active' => __('Active'),
-                    'inactive' => __('Inactive'), 
+                    'inactive' => __('Inactive'),
                 ])
                 ->displayUsingLabels()
                 ->required()
                 ->rules('required')
-                ->default('inactive'), 
+                ->default('inactive'),
 
             Text::make(__('Layout Name'), 'name')
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->placeholder(__('New Gutenberg Layout')), 
+                ->placeholder(__('New Gutenberg Layout')),
 
             BelongsToMany::make(__('Layout Plugins'), 'plugins', Plugin::class)
-                ->fields(function() {
-                   return [
+                ->fields(function () {
+                    return [
                         Number::make(__('Widget Order'), 'order')
                             ->default(time())
                             ->required()
                             ->rules('required'),
-                   ]; 
-                }), 
+                    ];
+                }),
 
             NovaBelongsToMany::make(__('Configure Widgets'), 'widgets', Widget::class)
-                ->fields(function() {
-                   return [
+                ->fields(function () {
+                    return [
                         Number::make(__('Widget Order'), 'order')
                             ->default(time())
                             ->required()
                             ->rules('required'),
-                   ]; 
+                    ];
                 }),
 
             Boolean::make(__('Is RTL Layout?'), 'rtl')

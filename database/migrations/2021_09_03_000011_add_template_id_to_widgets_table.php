@@ -19,7 +19,7 @@ class AddTemplateIdToWidgetsTable extends Migration
                 ->foreignId('template_id')
                 ->nullable()
                 ->after('config')
-                ->constrained('gutenberg_templates'); 
+                ->constrained('gutenberg_templates');
         });
         Schema::enableForeignKeyConstraints();
     }
@@ -32,7 +32,7 @@ class AddTemplateIdToWidgetsTable extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::table('gutenberg_widgets', function (Blueprint $table) { 
+        Schema::table('gutenberg_widgets', function (Blueprint $table) {
             $table->dropConstrainedForeignId('template_id');
         });
         Schema::enableForeignKeyConstraints();

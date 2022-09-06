@@ -16,11 +16,11 @@ class CreateGutenbergFragmentsTable extends Migration
         Schema::create('gutenberg_fragments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('website_id')->constrained('gutenberg_websites');
-            $table->string('name', 200); 
-            $table->string('fragment'); 
+            $table->string('name', 200);
+            $table->string('fragment');
             $table->string('prefix');
             $table->boolean('fallback')->default(false);
-            $table->string('marked_as', 20)->default('inactive');  
+            $table->string('marked_as', 20)->default('inactive');
             $table->json('config')->nullable();
             $table->timestamps();
         });

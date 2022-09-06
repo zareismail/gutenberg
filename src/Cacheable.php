@@ -1,7 +1,7 @@
 <?php
 
-namespace Zareismail\Gutenberg;   
+namespace Zareismail\Gutenberg;
 
 interface Cacheable
-{   
+{
 }

@@ -3,13 +3,13 @@
 namespace Zareismail\Gutenberg\Models;
 
 trait HasHandler
-{  
+{
     /**
      * Query where has the given template handlers.
-     * 
-     * @param  \Illuminate\Database\Elqoeunt\Builder $query     
-     * @param  string|array $templates 
-     * @return \Illuminate\Database\Elqoeunt\Builder            
+     *
+     * @param  \Illuminate\Database\Elqoeunt\Builder  $query
+     * @param  string|array  $templates
+     * @return \Illuminate\Database\Elqoeunt\Builder
      */
     public function scopeHandledBy($query, $handlers)
     {
@@ -24,5 +24,5 @@ trait HasHandler
     public function getQualifiedHandlerName()
     {
         return $this->qualifyColumn('handler');
-    } 
+    }
 }

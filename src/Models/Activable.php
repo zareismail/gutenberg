@@ -1,13 +1,13 @@
 <?php
 
-namespace Zareismail\Gutenberg\Models; 
+namespace Zareismail\Gutenberg\Models;
 
 use Zareismail\Markable\Markable;
 
-trait Activable 
-{    
+trait Activable
+{
     use Markable;
-    
+
     /**
      * Mark the model with the "active" value.
      *
@@ -26,13 +26,13 @@ trait Activable
     public function asInactive()
     {
         return $this->markAs($this->getActiveValue());
-    }  
+    }
 
     /**
      * Determine if the value of the model's "marked as" attribute is equal to the "active" value.
-     * 
-     * @param  string $value 
-     * @return bool       
+     *
+     * @param  string  $value
+     * @return bool
      */
     public function isActive()
     {
@@ -41,9 +41,9 @@ trait Activable
 
     /**
      * Determine if the value of the model's "marked as" attribute is equal to the "inactive" value.
-     * 
-     * @param  string $value 
-     * @return bool       
+     *
+     * @param  string  $value
+     * @return bool
      */
     public function isInactive()
     {
@@ -52,9 +52,9 @@ trait Activable
 
     /**
      * Query the model's `marked as` attribute with the "active" value.
-     * 
-     * @param  \Illuminate\Database\Eloquent\Builder $query  
-     * @return \Illuminate\Database\Eloquent\Builder       
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeActivated($query)
     {
@@ -63,9 +63,9 @@ trait Activable
 
     /**
      * Query the model's `marked as` attribute with the "inactive" value.
-     * 
-     * @param  \Illuminate\Database\Eloquent\Builder $query  
-     * @return \Illuminate\Database\Eloquent\Builder       
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeInactivated($query)
     {
@@ -74,7 +74,7 @@ trait Activable
 
     /**
      * Set the value of the "marked as" attribute as "active" value.
-     * 
+     *
      * @return $this
      */
     public function setActive()
@@ -84,7 +84,7 @@ trait Activable
 
     /**
      * Set the value of the "marked as" attribute as "inactive" value.
-     * 
+     *
      * @return $this
      */
     public function setInactive()

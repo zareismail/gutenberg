@@ -8,10 +8,9 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphToMany;
-use Laravel\Nova\Fields\Select; 
-use Laravel\Nova\Fields\Slug; 
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Zareismail\Gutenberg\Gutenberg;
 
 class Fragment extends Resource
@@ -69,15 +68,15 @@ class Fragment extends Resource
                 ->options(static::fragments($request))
                 ->displayUsingLabels()
                 ->required()
-                ->rules('required'), 
+                ->rules('required'),
 
             Text::make(__('Fragment Name'), 'name')
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->placeholder(__('New Gutenberg Fragment')), 
+                ->placeholder(__('New Gutenberg Fragment')),
 
-            Slug::make(__('Fragment Prefix'), 'prefix') 
+            Slug::make(__('Fragment Prefix'), 'prefix')
                 ->from('name')
                 ->sortable()
                 ->required()
@@ -85,10 +84,10 @@ class Fragment extends Resource
                     'required',
                     Rule::unique('gutenberg_fragments')
                         ->ignore($this->id)
-                        ->where(function($query) {
+                        ->where(function ($query) {
                             return $query->where('website_id', $this->website_id);
                         }),
-                ]),  
+                ]),
 
             Boolean::make(__('Fallback Fragment'), 'fallback')
                 ->help(__('Determine if you need to ignore prefixing fragment paths'))
@@ -96,7 +95,7 @@ class Fragment extends Resource
                 ->rules([
                     Rule::unique('gutenberg_fragments')
                         ->ignore($this->id)
-                        ->where(function($query) {
+                        ->where(function ($query) {
                             return $query->where($this->getQualifiedFallback(), 1)
                                          ->where('website_id', $this->website_id);
                         }),
@@ -126,7 +125,7 @@ class Fragment extends Resource
     public function filters(Request $request)
     {
         return [
-            Filters\Handler::make(static::fragments($request)->flip()->toArray())
+            Filters\Handler::make(static::fragments($request)->flip()->toArray()),
         ];
     }
 
@@ -154,13 +153,13 @@ class Fragment extends Resource
 
     /**
      * Get available fragments.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Support\Collection           
+     * @return \Illuminate\Support\Collection
      */
     public function fragments(Request $request)
     {
-        return Gutenberg::fragmentCollection()->flip()->map(function($key, $fragment) {
+        return Gutenberg::fragmentCollection()->flip()->map(function ($key, $fragment) {
             return __(class_basename($fragment));
         });
     }

@@ -14,10 +14,10 @@ class CreateGutenbergLayoutPluginTable extends Migration
     public function up()
     {
         Schema::create('gutenberg_layout_plugin', function (Blueprint $table) {
-            $table->id(); 
+            $table->id();
             $table->foreignId('gutenberg_plugin_id')->constrained('gutenberg_plugins');
             $table->foreignId('gutenberg_layout_id')->constrained('gutenberg_layouts');
-            $table->integer('order')->default(0); 
+            $table->integer('order')->default(0);
         });
     }
 

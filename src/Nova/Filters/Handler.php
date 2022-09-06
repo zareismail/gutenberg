@@ -16,14 +16,14 @@ class Handler extends Filter
 
     /**
      * List of filter options.
-     * 
+     *
      * @var array
      */
     protected $handlers = [];
 
     /**
      * Initiate class instance.
-     * 
+     *
      * @param [type] $handlers [description]
      */
     public function __construct($handlers)

@@ -3,13 +3,12 @@
 namespace Zareismail\Gutenberg\Nova;
 
 use Armincms\Fields\BelongsToMany;
-use Illuminate\Http\Request;   
-use Laravel\Nova\Fields\ID;  
-use Laravel\Nova\Fields\Boolean; 
-use Laravel\Nova\Fields\Select; 
-use Laravel\Nova\Fields\Text;  
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Whitecube\NovaFlexibleContent\Flexible;
-use Zareismail\Gutenberg\Gutenberg;
 
 class Plugin extends Resource
 {
@@ -18,7 +17,7 @@ class Plugin extends Resource
      *
      * @var string
      */
-    public static $title = 'name'; 
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -38,12 +37,12 @@ class Plugin extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),  
+            ID::make(__('ID'), 'id')->sortable(),
 
             Select::make(__('Widget Status'), 'marked_as')
                 ->options([
                     'active' => __('Active'),
-                    'inactive' => __('Inactive'), 
+                    'inactive' => __('Inactive'),
                 ])
                 ->displayUsingLabels()
                 ->required()
@@ -54,9 +53,9 @@ class Plugin extends Resource
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->placeholder(__('New Gutenberg Plugin')), 
+                ->placeholder(__('New Gutenberg Plugin')),
 
-            BelongsToMany::make(__('Plugin Dependecy'), 'plugins', static::class), 
+            BelongsToMany::make(__('Plugin Dependecy'), 'plugins', static::class),
 
             Flexible::make('Plugin Assets', 'assets')
                 ->required()
@@ -74,14 +73,14 @@ class Plugin extends Resource
 
                     Text::make(__('Asset URL'), 'url')
                         ->required()
-                        ->rules('required'), 
+                        ->rules('required'),
 
                     Boolean::make(__('To Head'), 'head')
                         ->default(false),
-                ]), 
+                ]),
 
         ];
-    }  
+    }
 
     /**
      * Get the cards available for the request.

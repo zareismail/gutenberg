@@ -2,12 +2,10 @@
 
 namespace Zareismail\Gutenberg\Console;
 
-use Illuminate\Console\GeneratorCommand;  
-use Symfony\Component\Console\Input\InputOption;
-use Zareismail\Cypress\Console\ResolvesStubPath;
+use Illuminate\Console\GeneratorCommand;
 
 class TemplateCommand extends GeneratorCommand
-{ 
+{
     /**
      * The console command name.
      *
@@ -27,7 +25,7 @@ class TemplateCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $type = 'Template';  
+    protected $type = 'Template';
 
     /**
      * Get the stub file for the generator.

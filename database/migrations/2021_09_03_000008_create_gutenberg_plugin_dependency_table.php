@@ -14,10 +14,10 @@ class CreateGutenbergPluginDependencyTable extends Migration
     public function up()
     {
         Schema::create('gutenberg_plugin_dependencuy', function (Blueprint $table) {
-            $table->id(); 
-            $table->foreignId('plugin_id')->constrained('gutenberg_plugins');    
-            $table->foreignId('dependency_id')->constrained('gutenberg_plugins');    
-            $table->integer('order')->default(0); 
+            $table->id();
+            $table->foreignId('plugin_id')->constrained('gutenberg_plugins');
+            $table->foreignId('dependency_id')->constrained('gutenberg_plugins');
+            $table->integer('order')->default(0);
         });
     }
 

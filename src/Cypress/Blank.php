@@ -1,11 +1,11 @@
 <?php
 
-namespace Zareismail\Gutenberg\Cypress;  
+namespace Zareismail\Gutenberg\Cypress;
 
 use Zareismail\Cypress\Component;
 
 class Blank extends Component
-{        
+{
     /**
      * Get the component fragments.
      *
@@ -13,6 +13,6 @@ class Blank extends Component
      */
     public function fragments(): array
     {
-    	return [];
+        return [];
     }
 }

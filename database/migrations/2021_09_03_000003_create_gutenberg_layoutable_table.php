@@ -14,10 +14,10 @@ class CreateGutenbergLayoutableTable extends Migration
     public function up()
     {
         Schema::create('gutenberg_layoutable', function (Blueprint $table) {
-            $table->id(); 
-            $table->foreignId('gutenberg_layout_id')->constrained('gutenberg_layouts'); 
-            $table->morphs('layoutable');   
-            $table->json('config')->nullable(); 
+            $table->id();
+            $table->foreignId('gutenberg_layout_id')->constrained('gutenberg_layouts');
+            $table->morphs('layoutable');
+            $table->json('config')->nullable();
         });
     }
 

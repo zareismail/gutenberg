@@ -2,12 +2,12 @@
 
 namespace Zareismail\Gutenberg\Nova;
 
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select; 
-use Laravel\Nova\Fields\Text; 
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Zareismail\Gutenberg\Gutenberg;
 use Zareismail\Gutenberg\Templates\Blank;
 
@@ -18,7 +18,7 @@ class Widget extends Resource
      *
      * @var string
      */
-    public static $title = 'name'; 
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -38,7 +38,7 @@ class Widget extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(), 
+            ID::make(__('ID'), 'id')->sortable(),
 
             Select::make(__('Widget Handler'), 'widget')
                 ->options(static::widgets($request))
@@ -47,26 +47,26 @@ class Widget extends Resource
 
             BelongsTo::make(__('Display Widget By'), 'template', Template::class)
                 ->required()
-                ->rules('required') 
+                ->rules('required')
                 ->withoutTrashed(),
 
             Select::make(__('Widget Display Status'), 'marked_as')->options([
-                    'active' => __('Active'),
-                    'inactive' => __('Inactive'), 
-                ])
+                'active' => __('Active'),
+                'inactive' => __('Inactive'),
+            ])
                 ->displayUsingLabels()
                 ->required()
                 ->rules('required')
-                ->default('inactive'),  
+                ->default('inactive'),
 
             Text::make(__('Widget Name'), 'name')
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->placeholder(__('New Gutenberg Widget')), 
+                ->placeholder(__('New Gutenberg Widget')),
 
             Number::make(__('Cache Time'), 'ttl')
-                ->displayUsing(function($value) {
+                ->displayUsing(function ($value) {
                     return $this->resource->isCacheable()
                         ? $value.' '.__('(s)')
                         : __('Not supported');
@@ -75,11 +75,11 @@ class Widget extends Resource
                 ->min(0)
                 ->default(300)
                 ->help(__('Seconds of widget caching (*zero means ignoring cache).'))
-                ->hideWhenUpdating(function() {
+                ->hideWhenUpdating(function () {
                     return ! $this->resource->isCacheable();
-                }), 
+                }),
 
-            $this->mergeWhen(! $request->isResourceIndexRequest(), function() use ($request) {
+            $this->mergeWhen(! $request->isResourceIndexRequest(), function () use ($request) {
                 return $this->resource->fields($request);
             }),
         ];
@@ -92,12 +92,12 @@ class Widget extends Resource
             $resource->cypressWidget(), 'relatableTemplates'
         );
 
-        return $query->when($canQuery, function($query) use ($resource, $request) {
+        return $query->when($canQuery, function ($query) use ($resource, $request) {
             $widget = $resource->cypressWidget();
 
-            $widget::relatableTemplates($request, $query); 
-        }, function($query) {
-            $query->handledBy(Blank::class); 
+            $widget::relatableTemplates($request, $query);
+        }, function ($query) {
+            $query->handledBy(Blank::class);
         });
     }
 
@@ -121,7 +121,7 @@ class Widget extends Resource
     public function cards(Request $request)
     {
         return [];
-    } 
+    }
 
     /**
      * Get the filters available for the resource.
@@ -132,7 +132,7 @@ class Widget extends Resource
     public function filters(Request $request)
     {
         return [
-            Filters\Handler::make(static::widgets($request)->flip()->toArray())
+            Filters\Handler::make(static::widgets($request)->flip()->toArray()),
         ];
     }
 
@@ -161,22 +161,22 @@ class Widget extends Resource
             Actions\CreateWidget::make()
                 ->standalone()
                 ->onlyOnIndex()
-                ->canSee(function($request) {
+                ->canSee(function ($request) {
                     return $request->user()->can('create', config('gutenberg.models.'.static::class)) &&
                          ! $request->viaRelationship();
                 }),
         ];
-    } 
+    }
 
     /**
      * Get available widgets.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Support\Collection           
+     * @return \Illuminate\Support\Collection
      */
     public function widgets(Request $request)
     {
-        return Gutenberg::widgetCollection()->flip()->map(function($key, $widget) {
+        return Gutenberg::widgetCollection()->flip()->map(function ($key, $widget) {
             return __(class_basename($widget));
         });
     }

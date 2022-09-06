@@ -3,17 +3,17 @@
 namespace Zareismail\Gutenberg\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model; 
+use Illuminate\Database\Eloquent\Model;
 
 class GutenbergFragment extends Model
 {
-    use Activable; 
-    use Fallback; 
-    use HasFactory; 
-    use HasHandler; 
-    use InteractsWithFragments; 
-    use Layoutable; 
-    use Maintainable; 
+    use Activable;
+    use Fallback;
+    use HasFactory;
+    use HasHandler;
+    use InteractsWithFragments;
+    use Layoutable;
+    use Maintainable;
 
     /**
      * The attributes that should be cast to native types.
@@ -26,7 +26,7 @@ class GutenbergFragment extends Model
 
     /**
      * Query the realted GutenbergWebsite.
-     * 
+     *
      * @return [type] [description]
      */
     public function website()
@@ -42,11 +42,11 @@ class GutenbergFragment extends Model
     public function getQualifiedHandlerName()
     {
         return $this->qualifyColumn('fragment');
-    }  
+    }
 
     /**
      * Get the `uriKey` of corresponding fragment.
-     * 
+     *
      * @return string
      */
     public function uriKey()
@@ -56,12 +56,12 @@ class GutenbergFragment extends Model
 
     /**
      * Get the url for given uri.
-     * 
-     * @param  string $uri 
-     * @return string      
+     *
+     * @param  string  $uri
+     * @return string
      */
     public function getUrl($uri = '')
-    { 
+    {
         if (! $this->isFallback()) {
             $uri = $this->uriKey().'/'.trim($uri, '/');
         }

@@ -2,17 +2,17 @@
 
 namespace Zareismail\Gutenberg\Console;
 
-use Zareismail\Cypress\Console\ComponentCommand as Command;
 use Symfony\Component\Console\Input\InputOption;
+use Zareismail\Cypress\Console\ComponentCommand as Command;
 
 class ComponentCommand extends Command
-{ 
+{
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'gutenberg:component'; 
+    protected $name = 'gutenberg:component';
 
     /**
      * Build the class with the given name.
@@ -22,7 +22,7 @@ class ComponentCommand extends Command
      */
     protected function buildClass($name)
     {
-        $component = $this->option('component'); 
+        $component = $this->option('component');
 
         return str_replace('{{ component }}', $component, parent::buildClass($name));
     }
@@ -57,7 +57,7 @@ class ComponentCommand extends Command
      * @return array
      */
     protected function getOptions()
-    { 
+    {
         return array_merge(parent::getOptions(), [
             ['component', 'c', InputOption::VALUE_REQUIRED, 'The component class being extended.'],
         ]);

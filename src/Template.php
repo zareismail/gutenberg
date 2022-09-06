@@ -1,18 +1,17 @@
 <?php
 
-namespace Zareismail\Gutenberg; 
+namespace Zareismail\Gutenberg;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
-use Zareismail\Cypress\Cypress;
 use Zareismail\Cypress\Makeable;
 use Zareismail\Gutenberg\Compilers\Compiler;
 
 abstract class Template extends Fluent implements Renderable
-{      
-    use Makeable; 
+{
+    use Makeable;
 
     /**
      * The logical group associated with the template.
@@ -23,14 +22,14 @@ abstract class Template extends Fluent implements Renderable
 
     /**
      * The template html string.
-     * 
+     *
      * @var string
      */
     protected $html = '';
 
     /**
      * List of default compilers.
-     * 
+     *
      * @var array
      */
     protected $compilers = [
@@ -45,16 +44,16 @@ abstract class Template extends Fluent implements Renderable
 
     /**
      * List of custom compilers.
-     * 
+     *
      * @var array
      */
-    protected static $customCompilers = [ 
+    protected static $customCompilers = [
     ];
 
     /**
      * Set the attributes.
-     * 
-     * @param array $attributes
+     *
+     * @param  array  $attributes
      */
     public function setAttributes(array $attributes)
     {
@@ -65,7 +64,7 @@ abstract class Template extends Fluent implements Renderable
 
     /**
      * Register the given variables.
-     * 
+     *
      * @return array
      */
     abstract public static function variables(): array;
@@ -92,11 +91,11 @@ abstract class Template extends Fluent implements Renderable
 
     /**
      * Set the template html string.
-     * 
-     * @param  string $html 
-     * @return $this       
+     *
+     * @param  string  $html
+     * @return $this
      */
-    public function withHtml(string $html='')
+    public function withHtml(string $html = '')
     {
         $this->html = $html;
 
@@ -105,7 +104,7 @@ abstract class Template extends Fluent implements Renderable
 
     /**
      * Get the template html string.
-     * 
+     *
      * @return string
      */
     public function getHtml()
@@ -119,19 +118,19 @@ abstract class Template extends Fluent implements Renderable
      * @return string
      */
     public function render()
-    {        
+    {
         if (app()->hasDebugModeEnabled()) {
             return $this->runCompilers($this->getHtml(), $this->jsonSerialize());
         }
-        
-        return Cache::sear($this->cacheKey(), function() {
+
+        return Cache::sear($this->cacheKey(), function () {
             return $this->runCompilers($this->getHtml(), $this->jsonSerialize());
         });
     }
 
     /**
      * Get the rendering cachekey.
-     * 
+     *
      * @return string
      */
     public function cacheKey(): string
@@ -141,37 +140,37 @@ abstract class Template extends Fluent implements Renderable
 
     /**
      * Run the available compilesr on the given string.
-     * 
-     * @param  string $expression
+     *
+     * @param  string  $expression
      * @param  array  $attributes
-     * @return string            
+     * @return string
      */
     public function runCompilers(string $expression, array $attributes = [])
     {
-        return collect($this->compilers())->reduce(function($expression, $compiler) use ($attributes) {
+        return collect($this->compilers())->reduce(function ($expression, $compiler) use ($attributes) {
             return $compiler->compile($expression, $attributes);
         }, $expression);
     }
 
     /**
      * Get the compiler callbacks.
-     * 
+     *
      * @return array
      */
     protected function compilers()
     {
-        return collect($this->compilers)->map(function($compiler) {
-                    return $compiler::make($this);
-                })
-                ->merge(static::$customCompilers) 
+        return collect($this->compilers)->map(function ($compiler) {
+            return $compiler::make($this);
+        })
+                ->merge(static::$customCompilers)
                 ->all();
-    } 
+    }
 
     /**
      * Register custom compiler.
-     * 
-     * @param  \Zareismail\Gutenberg\Compilers\Compiler $compiler 
-     * @return string           
+     *
+     * @param  \Zareismail\Gutenberg\Compilers\Compiler  $compiler
+     * @return string
      */
     public static function extends(Compiler $compiler)
     {

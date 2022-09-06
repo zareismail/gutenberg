@@ -2,12 +2,11 @@
 
 namespace Zareismail\Gutenberg;
 
-use Zareismail\Cypress\Widget;  
 use Zareismail\Cypress\Http\Requests\CypressRequest;
-use Zareismail\Gutenberg\Models\GutenbergWidget as Model;
+use Zareismail\Cypress\Widget;
 
 class GutenbergWidget extends Widget
-{        
+{
     use InteractsWithCache;
 
     /**
@@ -33,15 +32,15 @@ class GutenbergWidget extends Widget
 
     /**
      * Bootstrap the widget for the given request.
-     * 
-     * @param  \Zareismail\Cypress\Http\Requests\CypressRequest $request 
-     * @param  \Zareismail\Cypress\Layout $layout 
-     * @return void                  
+     *
+     * @param  \Zareismail\Cypress\Http\Requests\CypressRequest  $request
+     * @param  \Zareismail\Cypress\Layout  $layout
+     * @return void
      */
     public function boot(CypressRequest $request, $layout)
-    {   
+    {
         call_user_func($this->bootstrapCallback, $request, $this, $layout);
-    } 
+    }
 
     /**
      * Get the logical group associated with the widget.
@@ -65,15 +64,15 @@ class GutenbergWidget extends Widget
 
         return $this;
     }
-     
+
     /**
      * Get the evaluated contents of the object.
      *
      * @return string
      */
     public function render()
-    {  
-        return $this->sear(function() {
+    {
+        return $this->sear(function () {
             return $this->resolveForDisplay($this->serializeForDisplay());
         });
     }
@@ -92,7 +91,7 @@ class GutenbergWidget extends Widget
 
     /**
      * Serialize the widget fro display.
-     * 
+     *
      * @return array
      */
     public function serializeForDisplay(): array

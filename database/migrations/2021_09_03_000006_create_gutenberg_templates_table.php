@@ -14,11 +14,11 @@ class CreateGutenbergTemplatesTable extends Migration
     public function up()
     {
         Schema::create('gutenberg_templates', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('name', 200); 
-            $table->string('note')->nullable(); 
-            $table->string('template');  
-            $table->text('html')->nullable(); 
+            $table->id();
+            $table->string('name', 200);
+            $table->string('note')->nullable();
+            $table->string('template');
+            $table->text('html')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
