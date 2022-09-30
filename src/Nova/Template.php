@@ -27,7 +27,7 @@ class Template extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'name'
     ];
 
     /**
@@ -59,6 +59,24 @@ class Template extends Resource
                 ->sortable()
                 ->placeholder(__('Write something ...')),
 
+            $this->mergeWhen(
+                collect($this->resource->variables())->keyBy->name()->map->help()->count(),
+                $this->usageFields()
+            ),
+
+            Code::make(__('Template HTML'), 'html')
+                ->required()
+                ->rules('required')
+                ->language('htmlmixed')
+                ->stacked()
+                ->autoHeight(),
+
+        ]);
+    }
+
+    public function usageFields()
+    {
+        return [
             KeyValue::make(__('Available Variables'))
                 ->readonly()
                 ->onlyOnForms()
@@ -166,15 +184,7 @@ class Template extends Resource
                         'style' => 'direction: ltr !important',
                     ],
                 ]),
-
-            Code::make(__('Template HTML'), 'html')
-                ->required()
-                ->rules('required')
-                ->language('htmlmixed')
-                ->stacked()
-                ->autoHeight(),
-
-        ]);
+        ];
     }
 
     /**

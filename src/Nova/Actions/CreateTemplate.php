@@ -2,21 +2,17 @@
 
 namespace Zareismail\Gutenberg\Nova\Actions;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Zareismail\Gutenberg\Gutenberg;
-use Zareismail\Gutenberg\Models\GutenbergTemplate;
 use Zareismail\Gutenberg\Nova\Template;
 
 class CreateTemplate extends Action
 {
-    use InteractsWithQueue, Queueable;
-
     /**
      * Perform the action on the given models.
      *
@@ -26,30 +22,23 @@ class CreateTemplate extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        $template = tap(new GutenbergTemplate, function ($template) use ($fields) {
+        $template = tap(Template::newModel(), function ($template) use ($fields) {
             $template->forceFill([
                 'name' => $fields->get('name'),
                 'template' => $fields->get('template'),
             ])->save();
         });
 
-        return [
-            'push' => [
-                'name' => 'edit',
-                'params' => [
-                    'resourceName' => Template::uriKey(),
-                    'resourceId' => $template->getKey(),
-                ],
-            ],
-        ];
+        return Action::visit("/resources/" . Template::uriKey() . "/{$template->getKey()}/edit");
     }
 
     /**
      * Get the fields available on the action.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
-    public function fields()
+    public function fields(NovaRequest $request)
     {
         return [
             Select::make(__('Template Handler'), 'template')

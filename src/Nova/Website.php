@@ -4,14 +4,15 @@ namespace Zareismail\Gutenberg\Nova;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\URL;
 use Zareismail\Gutenberg\Gutenberg;
 
 class Website extends Resource
@@ -29,7 +30,7 @@ class Website extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'name'
     ];
 
     /**
@@ -42,6 +43,15 @@ class Website extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+
+            URL::make(__('Website Name'), function () {
+                return $this->getUrl();
+            })->displayUsing(function () {
+                return $this->name;
+            })->exceptOnForms(),
+
+            BelongsTo::make(__('Display Website By'), 'layout', Layout::class)
+                ->showCreateRelationButton(),
 
             Select::make(__('Website Status'), 'marked_as')
                 ->options([
@@ -76,18 +86,21 @@ class Website extends Resource
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->placeholder(__('New Gutenberg Website')),
+                ->placeholder(__('New Gutenberg Website'))
+                ->onlyOnForms(),
 
             Text::make(__('Website Title'), 'title')
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->placeholder(__('New Gutenberg Website')),
+                ->placeholder(__('New Gutenberg Website'))
+                ->hideFromIndex(),
 
             Slug::make(__('Website Directory'), 'directory')
                 ->from('name')
                 ->sortable()
                 ->required()
+                ->onlyOnForms()
                 ->rules([
                     'required',
                     Rule::unique('gutenberg_websites')
@@ -115,8 +128,6 @@ class Website extends Resource
                 ->placeholder(__('New Gutenberg Website description')),
 
             HasMany::make(__('Website Fragments'), 'fragments', Fragment::class),
-
-            MorphToMany::make(__('Website Layouts'), 'layouts', Layout::class),
         ];
     }
 

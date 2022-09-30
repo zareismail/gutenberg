@@ -2,17 +2,14 @@
 
 namespace Zareismail\Gutenberg\Nova\Actions;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ConfigCache extends Action
 {
-    use InteractsWithQueue, Queueable;
-
     /**
      * Perform the action on the given models.
      *
@@ -34,9 +31,10 @@ class ConfigCache extends Action
     /**
      * Get the fields available on the action.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
-    public function fields()
+    public function fields(NovaRequest $request)
     {
         return [
             Number::make(__('Cache Time'), 'ttl')

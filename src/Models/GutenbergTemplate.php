@@ -17,13 +17,12 @@ class GutenbergTemplate extends Model
      *
      * @var array
      */
-    protected $casts = [
-    ];
+    protected $casts = [];
 
     public function plugins()
     {
         return $this->belongsToMany(GutenbergPlugin::class, 'gutenberg_plugin_template')
-                    ->withPivot('order');
+            ->withPivot('order');
     }
 
     /**
@@ -55,7 +54,7 @@ class GutenbergTemplate extends Model
      */
     public function uriKey()
     {
-        return md5(static::class.$this->getKey());
+        return md5(static::class . $this->getKey());
     }
 
     /**
@@ -67,8 +66,8 @@ class GutenbergTemplate extends Model
     {
         if ($this->hasGutenbergTemplate() && $template = $this->gutenbergTemplate()) {
             return method_exists($template, 'variables')
-                    ? (array) $template::variables()
-                    : [];
+                ? (array) $template::variables()
+                : [];
         }
 
         return [];

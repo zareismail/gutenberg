@@ -47,8 +47,7 @@ abstract class Template extends Fluent implements Renderable
      *
      * @var array
      */
-    protected static $customCompilers = [
-    ];
+    protected static $customCompilers = [];
 
     /**
      * Set the attributes.
@@ -135,7 +134,7 @@ abstract class Template extends Fluent implements Renderable
      */
     public function cacheKey(): string
     {
-        return md5($this->toJson().$this->getHtml());
+        return md5($this->toJson() . $this->getHtml());
     }
 
     /**
@@ -162,8 +161,8 @@ abstract class Template extends Fluent implements Renderable
         return collect($this->compilers)->map(function ($compiler) {
             return $compiler::make($this);
         })
-                ->merge(static::$customCompilers)
-                ->all();
+            ->merge(static::$customCompilers)
+            ->all();
     }
 
     /**

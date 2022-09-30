@@ -15,8 +15,7 @@ class GutenbergLayout extends Model
      *
      * @var array
      */
-    protected $casts = [
-    ];
+    protected $casts = [];
 
     /**
      * Query the realted GutenbergWebsite.
@@ -25,7 +24,7 @@ class GutenbergLayout extends Model
      */
     public function websites()
     {
-        return $this->morphedByMany(GutenbergWebsite::class, 'layoutable', 'gutenberg_layoutable');
+        return $this->hasMany(GutenbergWebsite::class);
     }
 
     /**
@@ -35,7 +34,7 @@ class GutenbergLayout extends Model
      */
     public function fragments()
     {
-        return $this->morphedByMany(GutenbergFragment::class, 'layoutable', 'gutenberg_layoutable');
+        return $this->morphedByMany(GutenbergFragment::class);
     }
 
     /**
@@ -46,9 +45,9 @@ class GutenbergLayout extends Model
     public function plugins()
     {
         return $this->belongsToMany(GutenbergPlugin::class, 'gutenberg_layout_plugin')
-                    ->withPivot('order')
-                    ->with('plugins')
-                    ->orderBy('order');
+            ->withPivot('order')
+            ->with('plugins')
+            ->orderBy('order');
     }
 
     /**
@@ -59,8 +58,8 @@ class GutenbergLayout extends Model
     public function widgets()
     {
         return $this->belongsToMany(GutenbergWidget::class, 'gutenberg_layout_widget')
-                    ->withPivot('order', 'config')
-                    ->orderBy('order');
+            ->withPivot('order', 'config')
+            ->orderBy('order');
     }
 
     /**
@@ -84,6 +83,6 @@ class GutenbergLayout extends Model
      */
     public function uriKey()
     {
-        return md5(static::class.$this->getKey());
+        return md5(static::class . $this->getKey());
     }
 }

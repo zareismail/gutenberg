@@ -7,10 +7,11 @@ use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\URL;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Zareismail\Gutenberg\Gutenberg;
 
 class Fragment extends Resource
@@ -35,7 +36,7 @@ class Fragment extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'name'
     ];
 
     /**
@@ -49,9 +50,17 @@ class Fragment extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
+            URL::make(__('Fragment Name'), function () {
+                return $this->getUrl();
+            })->displayUsing(function () {
+                return $this->name;
+            })->exceptOnForms(),
+
             BelongsTo::make(__('Related Website'), 'website', Website::class)
                 ->required()
                 ->rules('required'),
+
+            BelongsTo::make(__('Display Fragment By'), 'layout', Layout::class)->showCreateRelationButton(),
 
             Select::make(__('Fragment Status'), 'marked_as')
                 ->options([
@@ -74,12 +83,14 @@ class Fragment extends Resource
                 ->sortable()
                 ->required()
                 ->rules('required')
-                ->placeholder(__('New Gutenberg Fragment')),
+                ->placeholder(__('New Gutenberg Fragment'))
+                ->hideFromIndex(),
 
             Slug::make(__('Fragment Prefix'), 'prefix')
                 ->from('name')
                 ->sortable()
                 ->required()
+                ->hideFromIndex()
                 ->rules([
                     'required',
                     Rule::unique('gutenberg_fragments')
@@ -97,11 +108,9 @@ class Fragment extends Resource
                         ->ignore($this->id)
                         ->where(function ($query) {
                             return $query->where($this->getQualifiedFallback(), 1)
-                                         ->where('website_id', $this->website_id);
+                                ->where('website_id', $this->website_id);
                         }),
                 ]),
-
-            MorphToMany::make(__('Website Layouts'), 'layouts', Layout::class),
         ];
     }
 
@@ -162,5 +171,17 @@ class Fragment extends Resource
         return Gutenberg::fragmentCollection()->flip()->map(function ($key, $fragment) {
             return __(class_basename($fragment));
         });
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/' . static::uriKey();
     }
 }

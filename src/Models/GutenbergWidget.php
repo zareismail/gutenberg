@@ -43,7 +43,7 @@ class GutenbergWidget extends Model
      */
     public function template()
     {
-        return $this->belongsTo(GutenbergTemplate::class);
+        return $this->belongsTo(GutenbergTemplate::class, 'gutenberg_template_id');
     }
 
     /**
@@ -73,7 +73,7 @@ class GutenbergWidget extends Model
      */
     public function uriKey()
     {
-        return md5(static::class.$this->getKey());
+        return md5(static::class . $this->getKey());
     }
 
     /**

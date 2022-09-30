@@ -39,7 +39,7 @@ class Plugin extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            Select::make(__('Widget Status'), 'marked_as')
+            Select::make(__('Plugin Status'), 'marked_as')
                 ->options([
                     'active' => __('Active'),
                     'inactive' => __('Inactive'),

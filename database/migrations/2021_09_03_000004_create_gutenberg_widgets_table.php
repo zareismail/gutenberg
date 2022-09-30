@@ -19,6 +19,11 @@ class CreateGutenbergWidgetsTable extends Migration
             $table->string('widget');
             $table->string('marked_as', 20)->default('inactive');
             $table->json('config')->nullable();
+            $table->unsignedInteger('ttl')->default(300);
+            $table
+                ->foreignId('gutenberg_template_id')
+                ->nullable()
+                ->constrained('gutenberg_templates');
             $table->timestamps();
         });
     }
