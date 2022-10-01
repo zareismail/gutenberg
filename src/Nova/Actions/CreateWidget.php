@@ -9,12 +9,10 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Zareismail\Gutenberg\Gutenberg;
-use Zareismail\Gutenberg\Models\GutenbergWidget;
 use Zareismail\Gutenberg\Nova\Widget;
 
 class CreateWidget extends Action
 {
-
     /**
      * Perform the action on the given models.
      *
@@ -31,7 +29,7 @@ class CreateWidget extends Action
             ])->save();
         });
 
-        return Action::visit("/resources/" . Widget::uriKey() . "/{$widget->getKey()}/edit");
+        return Action::visit('/resources/'.Widget::uriKey()."/{$widget->getKey()}/edit");
     }
 
     /**

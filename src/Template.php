@@ -134,7 +134,7 @@ abstract class Template extends Fluent implements Renderable
      */
     public function cacheKey(): string
     {
-        return md5($this->toJson() . $this->getHtml());
+        return md5($this->toJson().$this->getHtml());
     }
 
     /**

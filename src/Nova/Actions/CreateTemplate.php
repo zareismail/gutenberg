@@ -29,7 +29,7 @@ class CreateTemplate extends Action
             ])->save();
         });
 
-        return Action::visit("/resources/" . Template::uriKey() . "/{$template->getKey()}/edit");
+        return Action::visit('/resources/'.Template::uriKey()."/{$template->getKey()}/edit");
     }
 
     /**

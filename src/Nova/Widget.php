@@ -27,7 +27,7 @@ class Widget extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'id', 'name',
     ];
 
     /**
@@ -70,7 +70,7 @@ class Widget extends Resource
             Number::make(__('Cache Time'), 'ttl')
                 ->displayUsing(function ($value) {
                     return $this->resource->isCacheable()
-                        ? $value . ' ' . __('(s)')
+                        ? $value.' '.__('(s)')
                         : __('Not supported');
                 })
                 ->nullable()
@@ -78,10 +78,10 @@ class Widget extends Resource
                 ->default(300)
                 ->help(__('Seconds of widget caching (*zero means ignoring cache).'))
                 ->hideWhenUpdating(function () {
-                    return !$this->resource->isCacheable();
+                    return ! $this->resource->isCacheable();
                 }),
 
-            $this->mergeWhen(!$request->isResourceIndexRequest(), function () use ($request) {
+            $this->mergeWhen(! $request->isResourceIndexRequest(), function () use ($request) {
                 return $this->resource->fields($request);
             }),
         ];
@@ -165,8 +165,8 @@ class Widget extends Resource
                 ->standalone()
                 ->onlyOnIndex()
                 ->canSee(function ($request) {
-                    return $request->user()->can('create', config('gutenberg.models.' . static::class)) &&
-                        !$request->viaRelationship();
+                    return $request->user()->can('create', config('gutenberg.models.'.static::class)) &&
+                        ! $request->viaRelationship();
                 }),
         ];
     }
@@ -193,6 +193,6 @@ class Widget extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/' . static::uriKey();
+        return '/resources/'.static::uriKey();
     }
 }

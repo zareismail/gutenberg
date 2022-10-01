@@ -36,7 +36,7 @@ class Fragment extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'id', 'name',
     ];
 
     /**
@@ -182,6 +182,6 @@ class Fragment extends Resource
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
-        return '/resources/' . static::uriKey();
+        return '/resources/'.static::uriKey();
     }
 }
