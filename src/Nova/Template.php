@@ -2,12 +2,12 @@
 
 namespace Zareismail\Gutenberg\Nova;
 
-use Armincms\Fields\BelongsToMany;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Tag;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Zareismail\Gutenberg\Gutenberg;
@@ -53,7 +53,9 @@ class Template extends Resource
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Template')),
 
-            BelongsToMany::make(__('Required Plugins'), 'plugins', Plugin::class),
+            Tag::make(__('Required Plugins'), 'plugins', Plugin::class)
+                ->showCreateRelationButton()
+                ->searchable(false),
 
             Textarea::make(__('Template Note'), 'note')
                 ->sortable()

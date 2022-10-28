@@ -9,8 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.1.0",
-        "armincms/many-to-many": "~1.0",
+        "php": ">=7.1.0", 
         "whitecube/nova-flexible-content": "~1.0",
         "zareismail/markable": "~1.0"
     },
