@@ -30,7 +30,9 @@ class Gutenberg extends Cypress
      *
      * @var array
      */
-    public static $widgets = [];
+    public static $widgets = [
+        \Zareismail\Gutenberg\Cypress\Widgets\Blank::class,
+    ];
 
     /**
      * The registered template names.
@@ -38,7 +40,7 @@ class Gutenberg extends Cypress
      * @var array
      */
     public static $templates = [
-        Templates\Blank::class,
+        \Zareismail\Gutenberg\Templates\Blank::class,
     ];
 
     /**

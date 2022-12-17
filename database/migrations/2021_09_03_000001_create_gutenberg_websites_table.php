@@ -24,6 +24,7 @@ class CreateGutenbergWebsitesTable extends Migration
             $table->string('locale')->default(app()->getLocale());
             $table->string('marked_as', 20)->default('inactive');
             $table->json('config')->nullable();
+            $table->foreignId('gutenberg_layout_id')->constrained('gutenberg_layouts');
             $table->timestamps();
         });
     }

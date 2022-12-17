@@ -2,13 +2,13 @@
 
 namespace Zareismail\Gutenberg\Nova;
 
-use Armincms\Fields\BelongsToMany;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsToMany as NovaBelongsToMany;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Tag;
 use Laravel\Nova\Fields\Text;
 
 class Layout extends Resource
@@ -56,7 +56,11 @@ class Layout extends Resource
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Layout')),
 
-            BelongsToMany::make(__('Layout Plugins'), 'plugins', Plugin::class)
+            Tag::make(__('Layout Plugins'), 'plugins', Plugin::class)
+                ->showCreateRelationButton()
+                ->searchable(false),
+
+            BelongsToMany::make(__('Configure Widgets'), 'widgets', Widget::class)
                 ->fields(function () {
                     return [
                         Number::make(__('Widget Order'), 'order')
@@ -66,18 +70,7 @@ class Layout extends Resource
                     ];
                 }),
 
-            NovaBelongsToMany::make(__('Configure Widgets'), 'widgets', Widget::class)
-                ->fields(function () {
-                    return [
-                        Number::make(__('Widget Order'), 'order')
-                            ->default(time())
-                            ->required()
-                            ->rules('required'),
-                    ];
-                }),
-
-            Boolean::make(__('Is RTL Layout?'), 'rtl')
-                ->default(false),
+            Boolean::make(__('Is RTL Layout?'), 'rtl')->default(false),
         ];
     }
 

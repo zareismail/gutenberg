@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Zareismail\Gutenberg\Gutenberg;
 use Zareismail\Gutenberg\Templates\Blank;
 
@@ -26,7 +27,7 @@ class Widget extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'name',
     ];
 
     /**
@@ -50,10 +51,11 @@ class Widget extends Resource
                 ->rules('required')
                 ->withoutTrashed(),
 
-            Select::make(__('Widget Display Status'), 'marked_as')->options([
-                'active' => __('Active'),
-                'inactive' => __('Inactive'),
-            ])
+            Select::make(__('Widget Display Status'), 'marked_as')
+                ->options([
+                    'active' => __('Active'),
+                    'inactive' => __('Inactive'),
+                ])
                 ->displayUsingLabels()
                 ->required()
                 ->rules('required')
@@ -89,7 +91,8 @@ class Widget extends Resource
     {
         $resource = $request->findResourceOrFail();
         $canQuery = $resource->hasCypressWidget() && method_exists(
-            $resource->cypressWidget(), 'relatableTemplates'
+            $resource->cypressWidget(),
+            'relatableTemplates'
         );
 
         return $query->when($canQuery, function ($query) use ($resource, $request) {
@@ -163,7 +166,7 @@ class Widget extends Resource
                 ->onlyOnIndex()
                 ->canSee(function ($request) {
                     return $request->user()->can('create', config('gutenberg.models.'.static::class)) &&
-                         ! $request->viaRelationship();
+                        ! $request->viaRelationship();
                 }),
         ];
     }
@@ -179,5 +182,17 @@ class Widget extends Resource
         return Gutenberg::widgetCollection()->flip()->map(function ($key, $widget) {
             return __(class_basename($widget));
         });
+    }
+
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/'.static::uriKey();
     }
 }

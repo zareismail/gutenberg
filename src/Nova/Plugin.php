@@ -2,11 +2,11 @@
 
 namespace Zareismail\Gutenberg\Nova;
 
-use Armincms\Fields\BelongsToMany;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Tag;
 use Laravel\Nova\Fields\Text;
 use Whitecube\NovaFlexibleContent\Flexible;
 
@@ -39,7 +39,7 @@ class Plugin extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            Select::make(__('Widget Status'), 'marked_as')
+            Select::make(__('Plugin Status'), 'marked_as')
                 ->options([
                     'active' => __('Active'),
                     'inactive' => __('Inactive'),
@@ -55,7 +55,9 @@ class Plugin extends Resource
                 ->rules('required')
                 ->placeholder(__('New Gutenberg Plugin')),
 
-            BelongsToMany::make(__('Plugin Dependecy'), 'plugins', static::class),
+            Tag::make(__('Plugin Dependecy'), 'plugins', static::class)
+                ->showCreateRelationButton()
+                ->searchable(false),
 
             Flexible::make('Plugin Assets', 'assets')
                 ->required()
