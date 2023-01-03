@@ -2,6 +2,8 @@
 
 namespace Zareismail\Gutenberg\Models;
 
+use Zareismail\Gutenberg\Nova\Layout;
+
 trait Layoutable
 {
     /**
@@ -11,6 +13,6 @@ trait Layoutable
      */
     public function layout()
     {
-        return $this->belongsTo(GutenbergLayout::class, 'gutenberg_layout_id');
+        return $this->belongsTo(config('gutenberg.models.'.Layout::class), 'gutenberg_layout_id');
     }
 }

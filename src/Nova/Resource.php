@@ -28,7 +28,7 @@ abstract class Resource extends NovaResource
      */
     public static function newModel()
     {
-        $model = config('gutenberg.models.'.static::class);
+        $model = config('gutenberg.models.'.static::class, static::$model);
 
         return new $model;
     }
