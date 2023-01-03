@@ -14,6 +14,13 @@ use Laravel\Nova\Fields\Text;
 class Layout extends Resource
 {
     /**
+     * The model the resource corresponds to.
+     *
+     * @var string
+     */
+    public static $model = \Zareismail\Gutenberg\Models\GutenbergLayout::class;
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
